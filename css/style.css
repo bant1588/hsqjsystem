@@ -34,9 +34,10 @@ body {
 .form-header h2 { margin: 0 0 10px 0; color: #000; font-size: 24px; font-weight: bold; }
 .form-header p { margin: 0; color: #333; font-size: 16px; font-weight: bold; text-align: left; }
 
-/* 严格原生矩阵表格样式 */
-.table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; }
-.tax-table { width: 100%; border-collapse: collapse; font-size: 13px; border: 2px solid var(--table-border); table-layout: fixed; } 
+/* 表格与宽度控制（修改了table-layout和宽度规则以防止遮挡） */
+.table-responsive { width: 100%; overflow-x: auto; margin-top: 15px; padding-bottom: 15px; }
+/* 使用 max-content 保证内容无论多宽都能正常撑开，结合外层 overflow-x 实现平滑滚动 */
+.tax-table { min-width: 100%; width: max-content; border-collapse: collapse; font-size: 13px; border: 2px solid var(--table-border); table-layout: auto; } 
 .tax-table th, .tax-table td { border: 1px solid var(--table-border); padding: 8px 10px; text-align: center; vertical-align: middle; color: #000; word-wrap: break-word; }
 .tax-table th { font-weight: bold; background: #fff; } 
 .tax-table td.text-left { text-align: left; }
@@ -47,9 +48,9 @@ body {
 .tax-table td.readonly { background-color: #f2f2f2; color: #000; font-weight: bold; text-align: center;}
 .tax-table td.section-title { font-weight: bold; background-color: #f9f9f9; }
 
-/* 输入框无缝嵌入，避免破坏边框 */
-.tax-table input { width: 100%; box-sizing: border-box; border: none; outline: none; text-align: right; background: transparent; font-size: 13px; font-family: inherit; color: var(--primary-color); }
-.tax-table input:focus { background-color: #e6f7ff; }
+/* 输入框无缝嵌入，同时设置 min-width 保证 10 位数+小数点+千分位绝不遮挡 */
+.tax-table input { min-width: 130px; width: 100%; box-sizing: border-box; border: none; outline: none; text-align: right; background: transparent; font-size: 14px; font-family: monospace, inherit; color: var(--primary-color); }
+.tax-table input:focus { background-color: #e6f7ff; color: #000; font-weight: bold; }
 .tax-table input.text-left { text-align: left; }
 .tax-table input.text-center { text-align: center; }
 

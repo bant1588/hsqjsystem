@@ -86,6 +86,9 @@ const formSchema = [
             ['43', {text: '减:稽查查补(退)所得税额', class: 'text-indent-1'}, I],
             ['44', {text: '减:特别纳税调整补(退)所得税额', class: 'text-indent-1'}, I],
             ['45', {text: '十、本年实际应补(退)所得税额(38-42-43-44)', class: 'text-left'}, I]
+        ],
+        logic: [
+            { target: 'r17_c2', formula: 'val("r14_c2") + val("r15_c2") - val("r16_c2")' } // 行18 = 行15 + 行16 - 行17
         ]
     },
     {
@@ -122,6 +125,12 @@ const formSchema = [
             ['24', {text: '（八）确实无法支付的应付款项', class: 'text-indent-1'}, I],
             ['25', {text: '（九）汇兑收益', class: 'text-indent-1'}, I],
             ['26', {text: '（十）其他', class: 'text-indent-1'}, I]
+        ],
+        logic: [
+            // 行次9 = 10+12+13+14+15 (根据 rows 数组索引，r8代表第9行)
+            { target: 'r8_c2', formula: 'val("r9_c2") + val("r11_c2") + val("r12_c2") + val("r13_c2") + val("r14_c2")' },
+            // 行次1 = 2+9
+            { target: 'r0_c2', formula: 'val("r1_c2") + val("r8_c2")' }
         ]
     },
     {
@@ -722,7 +731,7 @@ const formSchema = [
             ['8', {text: '四、企业合并 (9+10)', class: 'text-left'}, I, I, I, I, I, I, I],
             ['9', {text: '（一）同一控制下企业合并', class: 'text-indent-1'}, I, I, I, I, I, I, I],
             ['10', {text: '（二）非同一控制下企业合并', class: 'text-indent-1'}, I, I, I, I, I, I, I],
-            ['11', {text: '五、企业分立', class: 'text-left'}, I, I, I, I, I, I, I],
+            ['11', {text: '企业分立', class: 'text-left'}, I, I, I, I, I, I, I],
             ['12', {text: '六、非货币性资产对外投资', class: 'text-left'}, I, I, I, I, I, I, I],
             ['13', {text: '七、技术入股', class: 'text-left'}, I, I, I, I, I, I, I],
             ['14', {text: '八、股权划转、资产划转', class: 'text-left'}, I, I, I, I, I, I, I],
