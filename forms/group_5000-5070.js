@@ -395,43 +395,55 @@ export const formBundle = {
     },
 
     // ==========================================
-    // A105070 捐赠支出及纳税调整明细表
+    // A105070 捐赠支出及纳税调整明细表 (按最新图片要求定制)
     // ==========================================
     A105070: {
         schema: {
             id: 'A105070',
             title: '捐赠支出及纳税调整明细表 (A105070)',
             columns: [
-                {title:'行次', width:'4%'}, {title:'项 目', width:'18%'},
-                {title:'账载金额(1)', width:'11%'}, {title:'以前转可扣(2)', width:'11%'}, {title:'扣除限额(3)', width:'11%'},
-                {title:'税收金额(4)', width:'11%'}, {title:'调增金额(5)', width:'11%'}, {title:'调减金额(6)', width:'11%'}, {title:'以后年可扣(7)', width:'12%'}
+                {title:'行次', width:'5%', align:'center'}, 
+                {title:'项 目', width:'25%', align:'center'},
+                {title:'账载金额\n1', width:'10%', align:'center'}, 
+                {title:'以前年度结转可扣除的捐赠额\n2', width:'10%', align:'center'}, 
+                {title:'按税收规定计算的扣除限额\n3', width:'10%', align:'center'},
+                {title:'税收金额\n4', width:'10%', align:'center'}, 
+                {title:'纳税调增金额\n5', width:'10%', align:'center'}, 
+                {title:'纳税调减金额\n6', width:'10%', align:'center'}, 
+                {title:'可结转以后年度扣除的捐赠额\n7', width:'10%', align:'center'}
             ],
             rows: [
-                { line: '1', text: '一、非公益性捐赠', isBold: true, inputs: [{key:'L1_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L1_C5', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { line: '2', text: '二、全额扣除的公益性捐赠', isBold: true, inputs: [{key:'L2_C1'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L2_C4'}, {key:'L2_C5', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { line: '3', text: '三、限额扣除的公益性捐赠 (4+5+6+7)', isBold: true, inputs: [{key:'L3_C1', isReadonly:true}, {key:'L3_C2', isReadonly:true}, {key:'L3_C3', isReadonly:true}, {key:'L3_C4', isReadonly:true}, {key:'L3_C5', isReadonly:true}, {key:'L3_C6', isReadonly:true}, {key:'L3_C7', isReadonly:true}] },
-                { line: '4', text: '前三年度', indent: 1, inputs: [{isAsterisk:true}, {key:'L4_C2'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L4_C6'}, {isAsterisk:true}] },
-                { line: '5', text: '前二年度', indent: 1, inputs: [{isAsterisk:true}, {key:'L5_C2'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L5_C6'}, {key:'L5_C7'}] },
-                { line: '6', text: '前一年度', indent: 1, inputs: [{isAsterisk:true}, {key:'L6_C2'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L6_C6'}, {key:'L6_C7'}] },
-                { line: '7', text: '本年度', indent: 1, inputs: [{key:'L7_C1'}, {isAsterisk:true}, {key:'L7_C3'}, {key:'L7_C4'}, {key:'L7_C5'}, {isAsterisk:true}, {key:'L7_C7'}] },
-                { line: '8', text: '合计 (1+2+3)', isBold: true, inputs: [{key:'L8_C1', isReadonly:true}, {key:'L8_C2', isReadonly:true}, {key:'L8_C3', isReadonly:true}, {key:'L8_C4', isReadonly:true}, {key:'L8_C5', isReadonly:true}, {key:'L8_C6', isReadonly:true}, {key:'L8_C7', isReadonly:true}] }
+                { line: '1', text: '一、非公益性捐赠', inputs: [{key:'L1_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L1_C5'}, {isAsterisk:true}, {isAsterisk:true}] },
+                { line: '2', text: '二、限额扣除的公益性捐赠 (3+4+5+6)', isBold: true, inputs: [{key:'L2_C1', isReadonly:true}, {key:'L2_C2', isReadonly:true}, {key:'L2_C3', isReadonly:true}, {key:'L2_C4', isReadonly:true}, {key:'L2_C5', isReadonly:true}, {key:'L2_C6', isReadonly:true}, {key:'L2_C7', isReadonly:true}] },
+                { line: '3', text: '前三年度（      年）', indent: 1, inputs: [{isAsterisk:true}, {key:'L3_C2'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L3_C6'}, {isAsterisk:true}] },
+                { line: '4', text: '前二年度（      年）', indent: 1, inputs: [{isAsterisk:true}, {key:'L4_C2'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L4_C6'}, {key:'L4_C7'}] },
+                { line: '5', text: '前一年度（      年）', indent: 1, inputs: [{isAsterisk:true}, {key:'L5_C2'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L5_C6'}, {key:'L5_C7'}] },
+                { line: '6', text: '本年（      年）', indent: 1, inputs: [{key:'L6_C1'}, {isAsterisk:true}, {key:'L6_C3'}, {key:'L6_C4'}, {key:'L6_C5'}, {isAsterisk:true}, {key:'L6_C7'}] },
+                { line: '7', text: '三、全额扣除的公益性捐赠', isBold: true, inputs: [{key:'L7_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L7_C4', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { line: '8', text: '1.', indent: 1, inputs: [{key:'L8_C1'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L8_C4'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { line: '9', text: '2.', indent: 1, inputs: [{key:'L9_C1'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L9_C4'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { line: '10', text: '3.', indent: 1, inputs: [{key:'L10_C1'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L10_C4'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { line: '11', text: '合计 (1+2+7)', isBold: true, inputs: [{key:'L11_C1', isReadonly:true}, {key:'L11_C2', isReadonly:true}, {key:'L11_C3', isReadonly:true}, {key:'L11_C4', isReadonly:true}, {key:'L11_C5', isReadonly:true}, {key:'L11_C6', isReadonly:true}, {key:'L11_C7', isReadonly:true}] },
+                { line: '附列资料', text: '2015年度至本年发生的公益性扶贫捐赠合计金额', inputs: [{key:'L12_C1'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L12_C4'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] }
             ]
         },
         logic: (db) => {
             if (!db.A105070) return;
             const t = db.A105070;
-            
-            t.L1_C5 = t.L1_C1 || 0;
-            t.L2_C5 = (t.L2_C1 || 0) - (t.L2_C4 || 0);
 
-            // 第3行合计计算
+            // 行次2：二、限额扣除的公益性捐赠 合计 (3+4+5+6)
             [1, 2, 3, 4, 5, 6, 7].forEach(c => {
-                t[`L3_C${c}`] = (t[`L4_C${c}`] || 0) + (t[`L5_C${c}`] || 0) + (t[`L6_C${c}`] || 0) + (t[`L7_C${c}`] || 0);
+                t[`L2_C${c}`] = (t[`L3_C${c}`] || 0) + (t[`L4_C${c}`] || 0) + (t[`L5_C${c}`] || 0) + (t[`L6_C${c}`] || 0);
             });
 
-            // 第8行总计计算
+            // 行次7：三、全额扣除的公益性捐赠 合计 (8+9+10)
+            [1, 4].forEach(c => {
+                t[`L7_C${c}`] = (t[`L8_C${c}`] || 0) + (t[`L9_C${c}`] || 0) + (t[`L10_C${c}`] || 0);
+            });
+
+            // 行次11：合计 (1+2+7)
             [1, 2, 3, 4, 5, 6, 7].forEach(c => {
-                t[`L8_C${c}`] = (t[`L1_C${c}`] || 0) + (t[`L2_C${c}`] || 0) + (t[`L3_C${c}`] || 0);
+                t[`L11_C${c}`] = (t[`L1_C${c}`] || 0) + (t[`L2_C${c}`] || 0) + (t[`L7_C${c}`] || 0);
             });
         }
     }
