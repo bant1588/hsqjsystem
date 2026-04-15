@@ -34,8 +34,8 @@ const App = {
 
             <div style="padding-top: 48px; min-height: 100vh;">
                 <div v-if="!isFilling" class="directory-container">
-                    <div class="directory-header" style="padding: 20px 0; border-bottom: 1px solid #eee;">
-                        <h2>企业所得税申报系统</h2>
+                    <div class="directory-header" style="padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 48px; background: #ffffff; z-index: 1000;">
+                        <h2>企业所得税年报模拟系统</h2>
                         <div class="action-group">
                             <button class="btn default-btn" @click="selectAll">全选</button>
                             <button class="btn default-btn" @click="deselectAll">取消</button>
@@ -134,7 +134,6 @@ const App = {
             { id: 'A109010', name: '企业所得税汇总纳税分支机构所得税分配表' }
         ])
         
-        // 修改点：更新了默认勾选的表单列表
         const selectedIds = ref(['A000000', 'A100000', 'A105000', 'A105050', 'A105080', 'A106000'])
         
         const isFilling = ref(false)
