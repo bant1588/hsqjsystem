@@ -24,3 +24,16 @@ export const injectFormulas = (logicFunction) => {
         logicFunction(db)
     })
 }
+
+// 4. 重置清空数据工具
+export const resetDB = () => {
+    for (const formId in db) {
+        for (const key in db[formId]) {
+            if (typeof db[formId][key] === 'number') {
+                db[formId][key] = 0;
+            } else if (typeof db[formId][key] === 'string') {
+                db[formId][key] = '';
+            }
+        }
+    }
+}

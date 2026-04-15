@@ -1,6 +1,7 @@
 // js/app.js
 import { createApp, ref, shallowRef, computed, markRaw } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
-import { initFormState, injectFormulas } from './engine.js'
+import { db, initFormState, injectFormulas, resetDB } from './engine.js'
+import { exportToExcel } from './exporter.js'
 import TaxTableRenderer from '../components/TaxTableRenderer.js'
 
 // 🌟 全量物理号段映射地图
@@ -34,7 +35,13 @@ const App = {
         <div v-if="!isFilling" class="directory-container">
             <div class="directory-header">
                 <h2>企业所得税申报系统</h2>
-                <button class="start-btn" @click="startFilling" :disabled="selectedIds.length === 0">进入填报</button>
+                <div class="action-group">
+                    <button class="btn default-btn" @click="selectAll">全选</button>
+                    <button class="btn default-btn" @click="deselectAll">取消</button>
+                    <button class="btn primary-btn" @click="startFilling" :disabled="selectedIds.length === 0">
+                        进入填报 <span v-if="selectedIds.length > 0">({{ selectedIds.length }})</span>
+                    </button>
+                </div>
             </div>
             <div class="directory-list">
                 <label v-for="item in fullCatalog" :key="item.id" class="checkbox-item">
@@ -54,6 +61,12 @@ const App = {
                 </div>
             </div>
             <div class="content">
+                <div class="workspace-actions">
+                    <button class="btn success-btn" @click="handleExport" :disabled="isExporting">
+                        {{ isExporting ? '导出中...' : '导出到Excel' }}
+                    </button>
+                    <button class="btn danger-btn" @click="handleReset">重置填写数据</button>
+                </div>
                 <TaxTableRenderer v-if="isCurrentFormConfig" :config="currentConfig" />
                 <component v-else :is="currentView" />
             </div>
@@ -100,6 +113,7 @@ const App = {
         
         const selectedIds = ref(['A100000', 'A105000', 'A000000'])
         const isFilling = ref(false)
+        const isExporting = ref(false)
         const currentMenu = ref('')
         const isCurrentFormConfig = ref(false)
         const currentConfig = ref(null)
@@ -107,6 +121,27 @@ const App = {
         const loadedLogics = new Set()
 
         const selectedForms = computed(() => fullCatalog.value.filter(i => selectedIds.value.includes(i.id)))
+
+        // 全选 / 取消全选
+        const selectAll = () => { selectedIds.value = fullCatalog.value.map(i => i.id) }
+        const deselectAll = () => { selectedIds.value = [] }
+
+        // 重置数据
+        const handleReset = () => {
+            if (confirm('确认要清空所有已填报的数据吗？清空后不可恢复。')) {
+                resetDB()
+            }
+        }
+
+        // 导出 Excel
+        const handleExport = async () => {
+            isExporting.value = true
+            try {
+                await exportToExcel(selectedIds.value, formToGroupMap, db)
+            } finally {
+                isExporting.value = false
+            }
+        }
 
         const startFilling = () => { isFilling.value = true; if (selectedForms.value[0]) switchTab(selectedForms.value[0]); }
 
@@ -154,7 +189,11 @@ const App = {
             }
         }
 
-        return { fullCatalog, selectedIds, isFilling, selectedForms, currentMenu, isCurrentFormConfig, currentConfig, currentView, startFilling, switchTab }
+        return { 
+            fullCatalog, selectedIds, isFilling, selectedForms, currentMenu, 
+            isCurrentFormConfig, currentConfig, currentView, isExporting,
+            startFilling, switchTab, selectAll, deselectAll, handleReset, handleExport
+        }
     }
 }
 createApp(App).mount('#app')
