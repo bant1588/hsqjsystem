@@ -28,14 +28,27 @@ const App = {
     components: { TaxTableRenderer },
     template: `
         <div class="app-container">
-            <div class="top-banner" style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff3cd; color: #856404; text-align: center; padding: 12px 0; font-weight: bold; z-index: 1000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-bottom: 1px solid #ffeeba; font-size: 14px;">
+            <style>
+                /* 表格表头固定逻辑 */
+                .tax-table-container table thead th,
+                .tax-table-container table tr:first-child th,
+                .tax-table-container table tr:first-child td {
+                    position: sticky !important;
+                    top: 118px !important; /* banner(48px) + actions(约70px) */
+                    z-index: 100 !important;
+                    background-color: #f8f9fa !important; /* 必须设置背景色防止重叠透明 */
+                    box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
+                }
+                /* 如果有二级表头，需根据实际情况微调 */
+            </style>
+
+            <div class="top-banner" style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff3cd; color: #856404; text-align: center; padding: 12px 0; font-weight: bold; z-index: 2000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-bottom: 1px solid #ffeeba; font-size: 14px; height: 48px; box-sizing: border-box;">
                 💡 本系统属于模拟系统，仅用于学习交流，具体依税务实际征税为准! &nbsp; 加微信进群 13519445134
             </div>
 
-            <div style="padding-top: 45px; min-height: 100vh;">
-                
+            <div style="padding-top: 48px; min-height: 100vh;">
                 <div v-if="!isFilling" class="directory-container">
-                    <div class="directory-header" style="position: sticky; top: 45px; background: white; z-index: 999; padding: 20px 0; border-bottom: 1px solid #eee;">
+                    <div class="directory-header" style="padding: 20px 0; border-bottom: 1px solid #eee;">
                         <h2>企业所得税申报系统</h2>
                         <div class="action-group">
                             <button class="btn default-btn" @click="selectAll">全选</button>
@@ -56,7 +69,7 @@ const App = {
 
                 <div v-else class="workspace">
                     <div class="sidebar">
-                        <div class="sidebar-header" style="position: sticky; top: 45px; background: #f8f9fa; z-index: 997; padding: 15px 0;">
+                        <div class="sidebar-header" style="position: sticky; top: 48px; background: #f8f9fa; z-index: 1500; padding: 15px 0;">
                             <button class="back-btn" @click="isFilling = false">← 返回目录</button>
                         </div>
                         <div v-for="item in selectedForms" :key="item.id" 
@@ -67,19 +80,19 @@ const App = {
                     </div>
                     
                     <div class="content" style="position: relative;">
-                        <div class="workspace-actions" style="position: sticky; top: 45px; z-index: 998; background: #ffffff; padding: 15px; border-bottom: 2px solid #4a90e2; margin-bottom: 20px; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); display: flex; gap: 10px;">
-                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                {{ isExporting ? '正在准备导出...' : '📥 导出到 Excel (分 Sheet)' }}
+                        <div class="workspace-actions" style="position: sticky; top: 48px; z-index: 1000; background: #ffffff; padding: 15px; border-bottom: 2px solid #4a90e2; margin-bottom: 0; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); display: flex; gap: 10px; height: 70px; box-sizing: border-box;">
+                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting">
+                                {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
                             </button>
-                            <button class="btn danger-btn" @click="handleReset" style="box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                            <button class="btn danger-btn" @click="handleReset">
                                 🗑️ 重置填写数据
                             </button>
                             <div style="margin-left: auto; align-self: center; color: #666; font-size: 13px;">
-                                当前表单：<strong>{{ currentMenu }}</strong>
+                                当前：<strong>{{ currentMenu }}</strong>
                             </div>
                         </div>
 
-                        <div class="table-scroll-container">
+                        <div class="tax-table-container" style="padding: 20px;">
                             <TaxTableRenderer v-if="isCurrentFormConfig" :config="currentConfig" />
                             <component v-else :is="currentView" />
                         </div>
