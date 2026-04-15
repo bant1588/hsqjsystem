@@ -27,43 +27,53 @@ const PlaceholderForm = {
 const App = {
     components: { TaxTableRenderer },
     template: `
-        <div v-if="!isFilling" class="directory-container">
-            <div class="directory-header">
-                <h2>企业所得税申报系统</h2>
-                <div class="action-group">
-                    <button class="btn default-btn" @click="selectAll">全选</button>
-                    <button class="btn default-btn" @click="deselectAll">取消</button>
-                    <button class="btn primary-btn" @click="startFilling" :disabled="selectedIds.length === 0">
-                        进入填报 <span v-if="selectedIds.length > 0">({{ selectedIds.length }})</span>
-                    </button>
-                </div>
+        <div>
+            <div style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff3cd; color: #856404; text-align: center; padding: 12px; font-weight: bold; z-index: 9999; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-bottom: 1px solid #ffeeba;">
+                💡 本系统属于模拟系统，仅用于学习交流，具体依税务实际征税为准!  加微信进群 13519445134
             </div>
-            <div class="directory-list">
-                <label v-for="item in fullCatalog" :key="item.id" class="checkbox-item">
-                    <input type="checkbox" :value="item.id" v-model="selectedIds">
-                    <span class="form-id">{{ item.id }}</span>
-                    <span class="form-name">{{ item.name }}</span>
-                </label>
-            </div>
-        </div>
-        <div v-else class="workspace">
-            <div class="sidebar">
-                <div class="sidebar-header"><button class="back-btn" @click="isFilling = false">← 返回目录</button></div>
-                <div v-for="item in selectedForms" :key="item.id" 
-                     class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)">
-                    <div style="font-weight:bold;">{{ item.id }}</div>
-                    <div style="font-size:12px;opacity:0.8;line-height:1.4;">{{ item.name }}</div>
+
+            <div style="padding-top: 48px; height: 100%;">
+                <div v-if="!isFilling" class="directory-container">
+                    <div class="directory-header">
+                        <h2>企业所得税申报系统</h2>
+                        <div class="action-group">
+                            <button class="btn default-btn" @click="selectAll">全选</button>
+                            <button class="btn default-btn" @click="deselectAll">取消</button>
+                            <button class="btn primary-btn" @click="startFilling" :disabled="selectedIds.length === 0">
+                                进入填报 <span v-if="selectedIds.length > 0">({{ selectedIds.length }})</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="directory-list">
+                        <label v-for="item in fullCatalog" :key="item.id" class="checkbox-item">
+                            <input type="checkbox" :value="item.id" v-model="selectedIds">
+                            <span class="form-id">{{ item.id }}</span>
+                            <span class="form-name">{{ item.name }}</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="content">
-                <div class="workspace-actions">
-                    <button class="btn success-btn" @click="handleExport" :disabled="isExporting">
-                        {{ isExporting ? '导出中...' : '导出到 Excel (分 Sheet)' }}
-                    </button>
-                    <button class="btn danger-btn" @click="handleReset">重置填写数据</button>
+                
+                <div v-else class="workspace">
+                    <div class="sidebar">
+                        <div class="sidebar-header"><button class="back-btn" @click="isFilling = false">← 返回目录</button></div>
+                        <div v-for="item in selectedForms" :key="item.id" 
+                             class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)">
+                            <div style="font-weight:bold;">{{ item.id }}</div>
+                            <div style="font-size:12px;opacity:0.8;line-height:1.4;">{{ item.name }}</div>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <div class="workspace-actions" style="position: sticky; top: 0; z-index: 998; background: #fff; padding: 15px 10px; border-bottom: 1px solid #eee; margin-top: -10px; margin-bottom: 15px; box-shadow: 0 4px 6px -4px rgba(0,0,0,0.05);">
+                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting">
+                                {{ isExporting ? '导出中...' : '导出到 Excel (分 Sheet)' }}
+                            </button>
+                            <button class="btn danger-btn" @click="handleReset">重置填写数据</button>
+                        </div>
+                        
+                        <TaxTableRenderer v-if="isCurrentFormConfig" :config="currentConfig" />
+                        <component v-else :is="currentView" />
+                    </div>
                 </div>
-                <TaxTableRenderer v-if="isCurrentFormConfig" :config="currentConfig" />
-                <component v-else :is="currentView" />
             </div>
         </div>
     `,
