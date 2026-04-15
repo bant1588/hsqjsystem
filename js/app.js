@@ -65,13 +65,15 @@ const App = {
                         </div>
 
                         <div class="sidebar-footer" style="padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.2); background: #4285f4; flex-shrink: 0;">
-                            <button class="back-btn" @click="isFilling = false" style="width: 100%; box-sizing: border-box; background: transparent; color: #ffffff; border: 1px solid #ffffff; border-radius: 4px; padding: 8px 0; cursor: pointer; margin-bottom: 10px;">← 返回目录</button>
+                            <button class="back-btn" @click="isFilling = false" style="width: 100%; box-sizing: border-box; background: #ffffff; color: #4285f4; border: none; border-radius: 4px; padding: 10px 0; font-weight: bold; cursor: pointer; margin-bottom: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.15); transition: background 0.2s;">
+                                ← 返回目录
+                            </button>
                             
-                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting" style="width: 100%; margin-bottom: 10px; box-sizing: border-box;">
+                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting" style="width: 100%; margin-bottom: 12px; box-sizing: border-box; padding: 10px 0; font-weight: bold; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                 {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
                             </button>
                             
-                            <button class="btn danger-btn" @click="handleReset" style="width: 100%; box-sizing: border-box;">
+                            <button class="btn danger-btn" @click="handleReset" style="width: 100%; box-sizing: border-box; padding: 10px 0; font-weight: bold; border-radius: 4px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                 🗑️ 重置填写数据
                             </button>
                         </div>
@@ -118,7 +120,7 @@ const App = {
             { id: 'A105120', name: '特殊行业准备金及纳税调整明细表' },
             { id: 'A106000', name: '企业所得税弥补亏损明细表' },
             { id: 'A107011', name: '符合条件的居民企业之间的股息、红利等权益性投资收益优惠明细表' },
-            { id: 'A107012', name: '研发费用加加计扣除优惠明细表' },
+            { id: 'A107012', name: '研发费用加计扣除优惠明细表' },
             { id: 'A107020', name: '所得减免优惠明细表' },
             { id: 'A107030', name: '抵扣应纳税所得额明细表' },
             { id: 'A107041', name: '高新技术企业优惠情况及明细表' },
