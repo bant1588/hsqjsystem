@@ -54,13 +54,11 @@ export const formBundle = {
         logic: (db) => {
             if (!db.A105080) return;
             const t = db.A105080;
-            // 计算 1-27行的纳税调整列
             for (let r = 1; r <= 27; r++) {
                 if(t[`L${r}_C2`] !== undefined || t[`L${r}_C5`] !== undefined) {
                     t[`L${r}_C9`] = (t[`L${r}_C2`] || 0) - (t[`L${r}_C5`] || 0);
                 }
             }
-            // 汇总项计算
             const sumCols = [1, 2, 3, 4, 5, 8, 9];
             sumCols.forEach(c => {
                 t[`L1_C${c}`] = (t[`L2_C${c}`]||0) + (t[`L3_C${c}`]||0) + (t[`L4_C${c}`]||0) + (t[`L5_C${c}`]||0) + (t[`L6_C${c}`]||0) + (t[`L7_C${c}`]||0);
@@ -121,13 +119,11 @@ export const formBundle = {
         logic: (db) => {
             if (!db.A105090) return;
             const t = db.A105090;
-            // 行间汇总
             for (let c = 1; c <= 7; c++) {
                 t[`L17_C${c}`] = (t[`L18_C${c}`] || 0) + (t[`L22_C${c}`] || 0);
                 t[`L16_C${c}`] = (t[`L17_C${c}`] || 0) + (t[`L23_C${c}`] || 0);
                 t[`L29_C${c}`] = (t[`L1_C${c}`]||0) + (t[`L2_C${c}`]||0) + (t[`L5_C${c}`]||0) + (t[`L7_C${c}`]||0) + (t[`L9_C${c}`]||0) + (t[`L12_C${c}`]||0) + (t[`L14_C${c}`]||0) + (t[`L16_C${c}`]||0) + (t[`L24_C${c}`]||0) + (t[`L26_C${c}`]||0) + (t[`L27_C${c}`]||0) + (t[`L28_C${c}`]||0);
             }
-            // 列内计算 C6 = C5 - C3 - C4; C7 = (C1+C2) - C6
             for (let r = 1; r <= 30; r++) {
                 t[`L${r}_C6`] = (t[`L${r}_C5`] || 0) - (t[`L${r}_C3`] || 0) - (t[`L${r}_C4`] || 0);
                 t[`L${r}_C7`] = (t[`L${r}_C1`] || 0) + (t[`L${r}_C2`] || 0) - t[`L${r}_C6`];
@@ -172,7 +168,6 @@ export const formBundle = {
         logic: (db) => {
             if (!db.A105100) return;
             const t = db.A105100;
-            // 运算逻辑
             ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '15_1', '15_2', '16', '17'].forEach(r => {
                 t[`L${r}_C3`] = (t[`L${r}_C2`] || 0) - (t[`L${r}_C1`] || 0);
                 t[`L${r}_C6`] = (t[`L${r}_C5`] || 0) - (t[`L${r}_C4`] || 0);
@@ -266,9 +261,9 @@ export const formBundle = {
             const t = db.A105120;
             for (let r = 2; r <= 9; r++) {
                 if(t[`L${r}_C6`] !== undefined && t[`L${r}_C7`] !== undefined) {
-                    t[`L${r}_C8`] = (t[`L${r}_C6`] || 0) * (t[`L${r}_C7`] || 0); // 6*7
+                    t[`L${r}_C8`] = (t[`L${r}_C6`] || 0) * (t[`L${r}_C7`] || 0); 
                 }
-                if (r >= 8) { // 只有非金融企业部分或计算规则特殊
+                if (r >= 8) { 
                     t[`L${r}_C10`] = Math.min(t[`L${r}_C4`] || 0, t[`L${r}_C8`] || 0) - (t[`L${r}_C9`] || 0);
                     t[`L${r}_C11`] = (t[`L${r}_C4`] || 0) - (t[`L${r}_C3`] || 0) - t[`L${r}_C10`];
                 }
@@ -277,31 +272,32 @@ export const formBundle = {
     },
 
     // ==========================================
-    // A106000 企业所得税弥补亏损明细表
+    // A106000 企业所得税弥补亏损明细表 (已修正)
     // ==========================================
     A106000: {
         schema: {
             id: 'A106000',
             title: '企业所得税弥补亏损明细表 (A106000)',
             columns: [
-                {title:'行次', width:'4%'}, {title:'年度', width:'8%'},
-                {title:'当年境内所得额(2)', width:'10%'}, {title:'分立转出(3)', width:'8%'}, 
-                {title:'可弥补(5年)(4)', width:'8%'}, {title:'可弥补(8年)(5)', width:'8%'}, {title:'可弥补(10年)(6)', width:'8%'},
-                {title:'弥补亏损企业类型(7)', width:'10%'}, {title:'当年亏损额(8)', width:'8%'}, {title:'当年待弥补(9)', width:'8%'},
-                {title:'使用境内所得弥补(10)', width:'8%'}, {title:'使用境外所得弥补(11)', width:'8%'}, {title:'当年可结转以后(12)', width:'8%'}
+                {title:'行次', width:'4%'}, {title:'项目', width:'10%'},
+                {title:'年度(1)', width:'7%'}, {title:'境内所得额(2)', width:'8%'}, {title:'分立转出(3)', width:'8%'}, 
+                {title:'可弥补5年(4)', width:'7%'}, {title:'可弥补8年(5)', width:'7%'}, {title:'可弥补10年(6)', width:'7%'},
+                {title:'企业类型(7)', width:'8%'}, {title:'当年亏损额(8)', width:'8%'}, {title:'当年待弥补(9)', width:'8%'},
+                {title:'境内弥补(10)', width:'6%'}, {title:'境外弥补(11)', width:'6%'}, {title:'可结转以后(12)', width:'6%'}
             ],
+            // 修正说明：将 1-12 列与 inputs[0] - inputs[11] 完全对应
             rows: [
-                { line: '1', text: '前十年度', inputs: [{key:'L1_C1_year', type:'text'}, {key:'L1_C2'}, {key:'L1_C3'}, {key:'L1_C4'}, {key:'L1_C5'}, {key:'L1_C6'}, {key:'L1_C7'}, {key:'L1_C8'}, {key:'L1_C9'}, {key:'L1_C10'}, {key:'L1_C11'}, {key:'L1_C12'}] },
-                { line: '2', text: '前九年度', inputs: [{key:'L2_C1_year', type:'text'}, {key:'L2_C2'}, {key:'L2_C3'}, {key:'L2_C4'}, {key:'L2_C5'}, {key:'L2_C6'}, {key:'L2_C7'}, {key:'L2_C8'}, {key:'L2_C9'}, {key:'L2_C10'}, {key:'L2_C11'}, {key:'L2_C12'}] },
-                { line: '3', text: '前八年度', inputs: [{key:'L3_C1_year', type:'text'}, {key:'L3_C2'}, {key:'L3_C3'}, {key:'L3_C4'}, {key:'L3_C5'}, {key:'L3_C6'}, {key:'L3_C7'}, {key:'L3_C8'}, {key:'L3_C9'}, {key:'L3_C10'}, {key:'L3_C11'}, {key:'L3_C12'}] },
-                { line: '4', text: '前七年度', inputs: [{key:'L4_C1_year', type:'text'}, {key:'L4_C2'}, {key:'L4_C3'}, {key:'L4_C4'}, {key:'L4_C5'}, {key:'L4_C6'}, {key:'L4_C7'}, {key:'L4_C8'}, {key:'L4_C9'}, {key:'L4_C10'}, {key:'L4_C11'}, {key:'L4_C12'}] },
-                { line: '5', text: '前六年度', inputs: [{key:'L5_C1_year', type:'text'}, {key:'L5_C2'}, {key:'L5_C3'}, {key:'L5_C4'}, {key:'L5_C5'}, {key:'L5_C6'}, {key:'L5_C7'}, {key:'L5_C8'}, {key:'L5_C9'}, {key:'L5_C10'}, {key:'L5_C11'}, {key:'L5_C12'}] },
-                { line: '6', text: '前五年度', inputs: [{key:'L6_C1_year', type:'text'}, {key:'L6_C2'}, {key:'L6_C3'}, {key:'L6_C4'}, {key:'L6_C5'}, {key:'L6_C6'}, {key:'L6_C7'}, {key:'L6_C8'}, {key:'L6_C9'}, {key:'L6_C10'}, {key:'L6_C11'}, {key:'L6_C12'}] },
-                { line: '7', text: '前四年度', inputs: [{key:'L7_C1_year', type:'text'}, {key:'L7_C2'}, {key:'L7_C3'}, {key:'L7_C4'}, {key:'L7_C5'}, {key:'L7_C6'}, {key:'L7_C7'}, {key:'L7_C8'}, {key:'L7_C9'}, {key:'L7_C10'}, {key:'L7_C11'}, {key:'L7_C12'}] },
-                { line: '8', text: '前三年度', inputs: [{key:'L8_C1_year', type:'text'}, {key:'L8_C2'}, {key:'L8_C3'}, {key:'L8_C4'}, {key:'L8_C5'}, {key:'L8_C6'}, {key:'L8_C7'}, {key:'L8_C8'}, {key:'L8_C9'}, {key:'L8_C10'}, {key:'L8_C11'}, {key:'L8_C12'}] },
-                { line: '9', text: '前二年度', inputs: [{key:'L9_C1_year', type:'text'}, {key:'L9_C2'}, {key:'L9_C3'}, {key:'L9_C4'}, {key:'L9_C5'}, {key:'L9_C6'}, {key:'L9_C7'}, {key:'L9_C8'}, {key:'L9_C9'}, {key:'L9_C10'}, {key:'L9_C11'}, {key:'L9_C12'}] },
-                { line: '10', text: '前一年度', inputs: [{key:'L10_C1_year', type:'text'}, {key:'L10_C2'}, {key:'L10_C3'}, {key:'L10_C4'}, {key:'L10_C5'}, {key:'L10_C6'}, {key:'L10_C7'}, {key:'L10_C8'}, {key:'L10_C9'}, {key:'L10_C10'}, {key:'L10_C11'}, {key:'L10_C12'}] },
-                { line: '11', text: '本年度', inputs: [{key:'L11_C1_year', type:'text'}, {key:'L11_C2'}, {key:'L11_C3'}, {key:'L11_C4'}, {key:'L11_C5'}, {key:'L11_C6'}, {key:'L11_C7'}, {key:'L11_C8'}, {key:'L11_C9'}, {key:'L11_C10'}, {key:'L11_C11'}, {key:'L11_C12'}] },
+                { line: '1', text: '前十年度', inputs: [{key:'L1_C1'}, {key:'L1_C2'}, {key:'L1_C3'}, {key:'L1_C4'}, {key:'L1_C5'}, {key:'L1_C6'}, {key:'L1_C7'}, {key:'L1_C8'}, {key:'L1_C9'}, {key:'L1_C10'}, {key:'L1_C11'}, {key:'L1_C12'}] },
+                { line: '2', text: '前九年度', inputs: [{key:'L2_C1'}, {key:'L2_C2'}, {key:'L2_C3'}, {key:'L2_C4'}, {key:'L2_C5'}, {key:'L2_C6'}, {key:'L2_C7'}, {key:'L2_C8'}, {key:'L2_C9'}, {key:'L2_C10'}, {key:'L2_C11'}, {key:'L2_C12'}] },
+                { line: '3', text: '前八年度', inputs: [{key:'L3_C1'}, {key:'L3_C2'}, {key:'L3_C3'}, {key:'L3_C4'}, {key:'L3_C5'}, {key:'L3_C6'}, {key:'L3_C7'}, {key:'L3_C8'}, {key:'L3_C9'}, {key:'L3_C10'}, {key:'L3_C11'}, {key:'L3_C12'}] },
+                { line: '4', text: '前七年度', inputs: [{key:'L4_C1'}, {key:'L4_C2'}, {key:'L4_C3'}, {key:'L4_C4'}, {key:'L4_C5'}, {key:'L4_C6'}, {key:'L4_C7'}, {key:'L4_C8'}, {key:'L4_C9'}, {key:'L4_C10'}, {key:'L4_C11'}, {key:'L4_C12'}] },
+                { line: '5', text: '前六年度', inputs: [{key:'L5_C1'}, {key:'L5_C2'}, {key:'L5_C3'}, {key:'L5_C4'}, {key:'L5_C5'}, {key:'L5_C6'}, {key:'L5_C7'}, {key:'L5_C8'}, {key:'L5_C9'}, {key:'L5_C10'}, {key:'L5_C11'}, {key:'L5_C12'}] },
+                { line: '6', text: '前五年度', inputs: [{key:'L6_C1'}, {key:'L6_C2'}, {key:'L6_C3'}, {key:'L6_C4'}, {key:'L6_C5'}, {key:'L6_C6'}, {key:'L6_C7'}, {key:'L6_C8'}, {key:'L6_C9'}, {key:'L6_C10'}, {key:'L6_C11'}, {key:'L6_C12'}] },
+                { line: '7', text: '前四年度', inputs: [{key:'L7_C1'}, {key:'L7_C2'}, {key:'L7_C3'}, {key:'L7_C4'}, {key:'L7_C5'}, {key:'L7_C6'}, {key:'L7_C7'}, {key:'L7_C8'}, {key:'L7_C9'}, {key:'L7_C10'}, {key:'L7_C11'}, {key:'L7_C12'}] },
+                { line: '8', text: '前三年度', inputs: [{key:'L8_C1'}, {key:'L8_C2'}, {key:'L8_C3'}, {key:'L8_C4'}, {key:'L8_C5'}, {key:'L8_C6'}, {key:'L8_C7'}, {key:'L8_C8'}, {key:'L8_C9'}, {key:'L8_C10'}, {key:'L8_C11'}, {key:'L8_C12'}] },
+                { line: '9', text: '前二年度', inputs: [{key:'L9_C1'}, {key:'L9_C2'}, {key:'L9_C3'}, {key:'L9_C4'}, {key:'L9_C5'}, {key:'L9_C6'}, {key:'L9_C7'}, {key:'L9_C8'}, {key:'L9_C9'}, {key:'L9_C10'}, {key:'L9_C11'}, {key:'L9_C12'}] },
+                { line: '10', text: '前一年度', inputs: [{key:'L10_C1'}, {key:'L10_C2'}, {key:'L10_C3'}, {key:'L10_C4'}, {key:'L10_C5'}, {key:'L10_C6'}, {key:'L10_C7'}, {key:'L10_C8'}, {key:'L10_C9'}, {key:'L10_C10'}, {key:'L10_C11'}, {key:'L10_C12'}] },
+                { line: '11', text: '本年度', inputs: [{key:'L11_C1'}, {key:'L11_C2'}, {key:'L11_C3'}, {key:'L11_C4'}, {key:'L11_C5'}, {key:'L11_C6'}, {key:'L11_C7'}, {key:'L11_C8'}, {key:'L11_C9'}, {key:'L11_C10'}, {key:'L11_C11'}, {key:'L11_C12'}] },
                 { line: '12', text: '可结转以后年度弥补的亏损额合计', isBold: true, inputs: [{},{},{},{},{},{},{},{},{},{},{}, {key:'L12_C12', isReadonly:true}] }
             ]
         },
@@ -317,43 +313,46 @@ export const formBundle = {
     },
 
     // ==========================================
-    // A107011 符合条件的居民企业之间的股息、红利等权益性投资收益优惠明细表
+    // A107011 符合条件的居民企业之间的股息、红利等权益性投资收益优惠明细表 (已修正)
     // ==========================================
     A107011: {
         schema: {
             id: 'A107011',
             title: '股息、红利等权益性投资收益优惠明细表 (A107011)',
             columns: [
-                {title:'行次', width:'4%'}, {title:'被投资企业(1)', width:'14%'},
-                {title:'信用代码(2)', width:'10%'}, {title:'投资性质(3)', width:'8%'}, {title:'投资成本(4)', width:'10%'},
-                {title:'投资比例(5)', width:'6%'}, {title:'分配时间(6)', width:'8%'}, {title:'股息红利(7)', width:'10%'},
-                {title:'清算资产(8)', width:'8%'}, {title:'留存比例(9)', width:'8%'}, {title:'确认股息(10)', width:'10%'},
-                {title:'撤资资产(11)', width:'8%'}, {title:'减少比例(12)', width:'6%'}, {title:'收回成本(13)', width:'8%'},
-                {title:'超出部分(14)', width:'8%'}, {title:'撤资留存(15)', width:'8%'}, {title:'撤资股息(16)', width:'8%'},
-                {title:'合计所得(17=7+10+16)', width:'10%'}
+                {title:'行次', width:'4%'}, {title:'被投资企业(1)', width:'10%'},
+                {title:'信用代码(2)', width:'5%'}, {title:'投资性质(3)', width:'5%'}, {title:'投资成本(4)', width:'6%'},
+                {title:'投资比例(5)', width:'5%'}, {title:'分配时间(6)', width:'5%'}, {title:'股息红利(7)', width:'6%'},
+                {title:'清算资产(8)', width:'6%'}, {title:'盈余公积(9)', width:'6%'}, {title:'确认股息(10)', width:'6%'},
+                {title:'撤回资产(11)', width:'6%'}, {title:'减少比例(12)', width:'5%'}, {title:'收回成本(13)', width:'6%'},
+                {title:'超过部分(14)', width:'6%'}, {title:'撤回盈余(15)', width:'6%'}, {title:'确认股息(16)', width:'5%'},
+                {title:'合计所得(17)', width:'6%'}
             ],
+            // 修正说明：第一列被投资企业作为文本占位，第2至17列填入 inputs 中共 16 项
             rows: [
-                { line: '1', text: '投资项目', inputs: [{key:'L1_C1', type:'text'}, {key:'L1_C2', type:'text'}, {key:'L1_C3', type:'text'}, {key:'L1_C4'}, {key:'L1_C5'}, {key:'L1_C6', type:'text'}, {key:'L1_C7'}, {key:'L1_C8'}, {key:'L1_C9'}, {key:'L1_C10', isReadonly:true}, {key:'L1_C11'}, {key:'L1_C12'}, {key:'L1_C13', isReadonly:true}, {key:'L1_C14', isReadonly:true}, {key:'L1_C15'}, {key:'L1_C16', isReadonly:true}, {key:'L1_C17', isReadonly:true}] },
-                { line: '8', text: '合计', isBold: true, inputs: [{isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L8_C4', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L8_C7', isReadonly:true}, {key:'L8_C8', isReadonly:true}, {isAsterisk:true}, {key:'L8_C10', isReadonly:true}, {key:'L8_C11', isReadonly:true}, {isAsterisk:true}, {key:'L8_C13', isReadonly:true}, {key:'L8_C14', isReadonly:true}, {key:'L8_C15', isReadonly:true}, {key:'L8_C16', isReadonly:true}, {key:'L8_C17', isReadonly:true}] },
-                { line: '9', text: '其中：直接投资或非H股股票投资', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L9_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L9_C7'}, {key:'L9_C8'}, {isAsterisk:true}, {key:'L9_C10'}, {key:'L9_C11'}, {isAsterisk:true}, {key:'L9_C13'}, {key:'L9_C14'}, {key:'L9_C15'}, {key:'L9_C16'}, {key:'L9_C17', isReadonly:true}] },
-                { line: '10', text: '股票投资—沪港通H股', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L10_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L10_C7'}, {key:'L10_C8'}, {isAsterisk:true}, {key:'L10_C10'}, {key:'L10_C11'}, {isAsterisk:true}, {key:'L10_C13'}, {key:'L10_C14'}, {key:'L10_C15'}, {key:'L10_C16'}, {key:'L10_C17', isReadonly:true}] },
-                { line: '11', text: '股票投资—深港通H股', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L11_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L11_C7'}, {key:'L11_C8'}, {isAsterisk:true}, {key:'L11_C10'}, {key:'L11_C11'}, {isAsterisk:true}, {key:'L11_C13'}, {key:'L11_C14'}, {key:'L11_C15'}, {key:'L11_C16'}, {key:'L11_C17', isReadonly:true}] },
-                { line: '12', text: '创新企业CDR', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L12_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L12_C7'}, {key:'L12_C8'}, {isAsterisk:true}, {key:'L12_C10'}, {key:'L12_C11'}, {isAsterisk:true}, {key:'L12_C13'}, {key:'L12_C14'}, {key:'L12_C15'}, {key:'L12_C16'}, {key:'L12_C17', isReadonly:true}] },
-                { line: '13', text: '永续债', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L13_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L13_C7'}, {key:'L13_C8'}, {isAsterisk:true}, {key:'L13_C10'}, {key:'L13_C11'}, {isAsterisk:true}, {key:'L13_C13'}, {key:'L13_C14'}, {key:'L13_C15'}, {key:'L13_C16'}, {key:'L13_C17', isReadonly:true}] }
+                { line: '1', text: '投资项目1', inputs: [{key:'L1_C2'}, {key:'L1_C3'}, {key:'L1_C4'}, {key:'L1_C5'}, {key:'L1_C6'}, {key:'L1_C7'}, {key:'L1_C8'}, {key:'L1_C9'}, {key:'L1_C10', isReadonly:true}, {key:'L1_C11'}, {key:'L1_C12'}, {key:'L1_C13', isReadonly:true}, {key:'L1_C14', isReadonly:true}, {key:'L1_C15'}, {key:'L1_C16', isReadonly:true}, {key:'L1_C17', isReadonly:true}] },
+                { line: '2', text: '投资项目2', inputs: [{key:'L2_C2'}, {key:'L2_C3'}, {key:'L2_C4'}, {key:'L2_C5'}, {key:'L2_C6'}, {key:'L2_C7'}, {key:'L2_C8'}, {key:'L2_C9'}, {key:'L2_C10', isReadonly:true}, {key:'L2_C11'}, {key:'L2_C12'}, {key:'L2_C13', isReadonly:true}, {key:'L2_C14', isReadonly:true}, {key:'L2_C15'}, {key:'L2_C16', isReadonly:true}, {key:'L2_C17', isReadonly:true}] },
+                { line: '8', text: '合计', isBold: true, inputs: [{isAsterisk:true}, {isAsterisk:true}, {key:'L8_C4', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {key:'L8_C7', isReadonly:true}, {key:'L8_C8', isReadonly:true}, {key:'L8_C9', isReadonly:true}, {key:'L8_C10', isReadonly:true}, {key:'L8_C11', isReadonly:true}, {isAsterisk:true}, {key:'L8_C13', isReadonly:true}, {key:'L8_C14', isReadonly:true}, {key:'L8_C15', isReadonly:true}, {key:'L8_C16', isReadonly:true}, {key:'L8_C17', isReadonly:true}] },
+                { line: '9', text: '其中：直接投资或非H股股票投资', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {key:'L9_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L9_C7'}, {key:'L9_C8'}, {key:'L9_C9'}, {key:'L9_C10', isReadonly:true}, {key:'L9_C11'}, {isAsterisk:true}, {key:'L9_C13', isReadonly:true}, {key:'L9_C14', isReadonly:true}, {key:'L9_C15'}, {key:'L9_C16', isReadonly:true}, {key:'L9_C17', isReadonly:true}] },
+                { line: '10', text: '股票投资—沪港通H股', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {key:'L10_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L10_C7'}, {key:'L10_C8'}, {key:'L10_C9'}, {key:'L10_C10', isReadonly:true}, {key:'L10_C11'}, {isAsterisk:true}, {key:'L10_C13', isReadonly:true}, {key:'L10_C14', isReadonly:true}, {key:'L10_C15'}, {key:'L10_C16', isReadonly:true}, {key:'L10_C17', isReadonly:true}] },
+                { line: '11', text: '股票投资—深港通H股', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {key:'L11_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L11_C7'}, {key:'L11_C8'}, {key:'L11_C9'}, {key:'L11_C10', isReadonly:true}, {key:'L11_C11'}, {isAsterisk:true}, {key:'L11_C13', isReadonly:true}, {key:'L11_C14', isReadonly:true}, {key:'L11_C15'}, {key:'L11_C16', isReadonly:true}, {key:'L11_C17', isReadonly:true}] },
+                { line: '12', text: '创新企业CDR', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {key:'L12_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L12_C7'}, {key:'L12_C8'}, {key:'L12_C9'}, {key:'L12_C10', isReadonly:true}, {key:'L12_C11'}, {isAsterisk:true}, {key:'L12_C13', isReadonly:true}, {key:'L12_C14', isReadonly:true}, {key:'L12_C15'}, {key:'L12_C16', isReadonly:true}, {key:'L12_C17', isReadonly:true}] },
+                { line: '13', text: '永续债', indent: 1, inputs: [{isAsterisk:true}, {isAsterisk:true}, {key:'L13_C4'}, {isAsterisk:true}, {isAsterisk:true}, {key:'L13_C7'}, {key:'L13_C8'}, {key:'L13_C9'}, {key:'L13_C10', isReadonly:true}, {key:'L13_C11'}, {isAsterisk:true}, {key:'L13_C13', isReadonly:true}, {key:'L13_C14', isReadonly:true}, {key:'L13_C15'}, {key:'L13_C16', isReadonly:true}, {key:'L13_C17', isReadonly:true}] }
             ]
         },
         logic: (db) => {
             if (!db.A107011) return;
             const t = db.A107011;
-            // 简单演示计算
-            ['1', '9', '10', '11', '12', '13'].forEach(r => {
-                if (r === '1') {
-                    t[`L${r}_C10`] = Math.min(t[`L${r}_C8`]||0, t[`L${r}_C9`]||0);
-                    t[`L${r}_C13`] = (t[`L${r}_C4`]||0) * (t[`L${r}_C12`]||0);
-                    t[`L${r}_C14`] = (t[`L${r}_C11`]||0) - (t[`L${r}_C13`]||0);
-                    t[`L${r}_C16`] = Math.min(t[`L${r}_C14`]||0, t[`L${r}_C15`]||0);
-                }
+            ['1', '2', '9', '10', '11', '12', '13'].forEach(r => {
+                t[`L${r}_C10`] = Math.min(t[`L${r}_C8`] || 0, t[`L${r}_C9`] || 0);
+                t[`L${r}_C13`] = (t[`L${r}_C4`] || 0) * (t[`L${r}_C12`] || 0);
+                t[`L${r}_C14`] = (t[`L${r}_C11`] || 0) - (t[`L${r}_C13`] || 0);
+                t[`L${r}_C16`] = Math.min(t[`L${r}_C14`] || 0, t[`L${r}_C15`] || 0);
                 t[`L${r}_C17`] = (t[`L${r}_C7`] || 0) + (t[`L${r}_C10`] || 0) + (t[`L${r}_C16`] || 0);
+            });
+            // 汇总计算（以1-2两行示例）
+            [4, 7, 8, 9, 10, 11, 13, 14, 15, 16, 17].forEach(c => {
+                t[`L8_C${c}`] = (t[`L1_C${c}`] || 0) + (t[`L2_C${c}`] || 0);
             });
         }
     },
