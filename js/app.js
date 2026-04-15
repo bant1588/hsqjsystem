@@ -54,20 +54,20 @@ const App = {
                 </div>
 
                 <div v-else class="workspace">
-                    <div class="sidebar" style="display: flex; flex-direction: column; height: calc(100vh - 48px); position: sticky; top: 48px; background: #ffffff;">
-                        <div class="sidebar-header" style="padding: 15px; border-bottom: 1px solid #eee; flex-shrink: 0;">
-                            <button class="back-btn" @click="isFilling = false" style="width: 100%; box-sizing: border-box;">← 返回目录</button>
+                    <div class="sidebar" style="display: flex; flex-direction: column; height: calc(100vh - 48px); position: sticky; top: 48px; background: #4285f4; color: #ffffff;">
+                        <div class="sidebar-header" style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); flex-shrink: 0;">
+                            <button class="back-btn" @click="isFilling = false" style="width: 100%; box-sizing: border-box; background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; padding: 8px 0; cursor: pointer;">← 返回目录</button>
                         </div>
                         
                         <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
                             <div v-for="item in selectedForms" :key="item.id" 
                                  class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)">
                                 <div style="font-weight:bold;">{{ item.id }}</div>
-                                <div style="font-size:12px;opacity:0.8;line-height:1.4;">{{ item.name }}</div>
+                                <div style="font-size:12px;opacity:0.9;line-height:1.4;">{{ item.name }}</div>
                             </div>
                         </div>
 
-                        <div class="sidebar-footer" style="padding: 15px; border-top: 1px solid #eee; background: #ffffff; flex-shrink: 0;">
+                        <div class="sidebar-footer" style="padding: 15px; border-top: 1px solid rgba(255, 255, 255, 0.2); background: #4285f4; flex-shrink: 0;">
                             <button class="btn success-btn" @click="handleExport" :disabled="isExporting" style="width: 100%; margin-bottom: 10px; box-sizing: border-box;">
                                 {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
                             </button>
@@ -78,7 +78,7 @@ const App = {
                     </div>
                     
                     <div class="content" style="position: relative; flex: 1;">
-                        <div class="workspace-actions" style="position: sticky; top: 48px; z-index: 1000; background: #ffffff; padding: 0 20px; border-bottom: 2px solid #4a90e2; display: flex; align-items: center; height: 60px; box-sizing: border-box;">
+                        <div class="workspace-actions" style="background: #ffffff; padding: 0 20px; border-bottom: 2px solid #4a90e2; display: flex; align-items: center; height: 60px; box-sizing: border-box;">
                             <div style="color: #333; font-size: 15px;">
                                 当前填报表单：<strong style="color: #4a90e2; font-size: 16px;">{{ currentMenu }}</strong>
                             </div>
