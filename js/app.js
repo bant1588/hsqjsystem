@@ -60,7 +60,6 @@ const App = {
         </div>
     `,
     setup() {
-        // 🌟 完整 35 张表单目录
         const fullCatalog = ref([
             { id: 'A000000', name: '企业所得税年度纳税申报基础信息表' },
             { id: 'A100000', name: '企业所得税年度纳税申报主表' },
@@ -99,7 +98,7 @@ const App = {
             { id: 'A109010', name: '企业所得税汇总纳税分支机构所得税分配表' }
         ])
         
-        const selectedIds = ref(['A100000', 'A105000'])
+        const selectedIds = ref(['A100000', 'A105000', 'A000000'])
         const isFilling = ref(false)
         const currentMenu = ref('')
         const isCurrentFormConfig = ref(false)
@@ -115,18 +114,6 @@ const App = {
             currentMenu.value = formItem.id
             const formId = formItem.id
             const groupName = formToGroupMap[formId]
-            
-            // A000000 依然走原生组件解析模式
-            if (formId === 'A000000') {
-                try {
-                    const module = await import(`../forms/${formId}.js`)
-                    isCurrentFormConfig.value = false
-                    currentView.value = markRaw(module.default)
-                } catch (e) {
-                    currentView.value = markRaw(PlaceholderForm)
-                }
-                return
-            }
 
             if (!groupName) {
                 isCurrentFormConfig.value = false
@@ -136,11 +123,10 @@ const App = {
 
             try {
                 const groupModule = await import(`../forms/${groupName}.js`)
-                const bundle = Object.values(groupModule)[0] 
+                const bundle = groupModule.formBundle || Object.values(groupModule)[0] 
                 const target = bundle[formId]
 
                 if (target) {
-                    // 🌟 智能提取所有输入框的 key 和 type 交给引擎初始化
                     const fields = []
                     target.schema.rows.forEach(r => {
                         if (r.key) fields.push({ key: r.key, type: r.type || 'number' })
