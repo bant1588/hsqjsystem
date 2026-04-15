@@ -34,7 +34,7 @@ const App = {
                 .tax-table-container table tr:first-child th,
                 .tax-table-container table tr:first-child td {
                     position: sticky !important;
-                    top: 118px !important; /* banner(48px) + actions(约70px) */
+                    top: 108px !important; /* banner(48px) + actions(60px) */
                     z-index: 100 !important;
                     background-color: #f8f9fa !important; /* 必须设置背景色防止重叠透明 */
                     box-shadow: 0 2px 2px -1px rgba(0,0,0,0.1);
@@ -69,8 +69,14 @@ const App = {
 
                 <div v-else class="workspace">
                     <div class="sidebar">
-                        <div class="sidebar-header" style="position: sticky; top: 48px; background: #f8f9fa; z-index: 1500; padding: 15px 0;">
-                            <button class="back-btn" @click="isFilling = false">← 返回目录</button>
+                        <div class="sidebar-header" style="position: sticky; top: 48px; background: #ffffff; z-index: 1500; padding: 15px; border-bottom: 1px solid #eaeaea;">
+                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting" style="width: 100%; margin-bottom: 10px; display: block; box-sizing: border-box;">
+                                {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
+                            </button>
+                            <button class="btn danger-btn" @click="handleReset" style="width: 100%; margin-bottom: 15px; display: block; box-sizing: border-box;">
+                                🗑️ 重置填写数据
+                            </button>
+                            <button class="back-btn" @click="isFilling = false" style="width: 100%; display: block; box-sizing: border-box;">← 返回目录</button>
                         </div>
                         <div v-for="item in selectedForms" :key="item.id" 
                              class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)">
@@ -80,15 +86,9 @@ const App = {
                     </div>
                     
                     <div class="content" style="position: relative;">
-                        <div class="workspace-actions" style="position: sticky; top: 48px; z-index: 1000; background: #ffffff; padding: 15px; border-bottom: 2px solid #4a90e2; margin-bottom: 0; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); display: flex; gap: 10px; height: 70px; box-sizing: border-box;">
-                            <button class="btn success-btn" @click="handleExport" :disabled="isExporting">
-                                {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
-                            </button>
-                            <button class="btn danger-btn" @click="handleReset">
-                                🗑️ 重置填写数据
-                            </button>
-                            <div style="margin-left: auto; align-self: center; color: #666; font-size: 13px;">
-                                当前：<strong>{{ currentMenu }}</strong>
+                        <div class="workspace-actions" style="position: sticky; top: 48px; z-index: 1000; background: #ffffff; padding: 0 20px; border-bottom: 2px solid #4a90e2; margin-bottom: 0; box-shadow: 0 4px 6px -2px rgba(0,0,0,0.05); display: flex; align-items: center; height: 60px; box-sizing: border-box;">
+                            <div style="color: #333; font-size: 15px;">
+                                当前填报表单：<strong style="color: #4a90e2; font-size: 16px;">{{ currentMenu }}</strong>
                             </div>
                         </div>
 
