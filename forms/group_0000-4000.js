@@ -24,6 +24,7 @@ export const formBundle = {
                 { line: '108', text: '采用一般企业财务报表格式 (2019年版) (□是 □否)', key: 'L108', type: 'text' },
                 { line: '109', text: '小型微利企业 (□是 □否)', key: 'L109', type: 'text' },
                 { line: '110', text: '上市公司 (□是(境内/境外) □否)', key: 'L110', type: 'text' },
+                
                 { line: '201', text: '从事股权投资业务 (□是)', key: 'L201', type: 'text' },
                 { line: '202', text: '存在境外关联交易 (□是)', key: 'L202', type: 'text' },
                 { line: '203-1', text: '选择采用的境外所得抵免方式', key: 'L203_1', type: 'text' },
@@ -50,7 +51,33 @@ export const formBundle = {
                 { line: '221', text: '技术成果投资入股递延纳税年度 (□是)', key: 'L221', type: 'text' },
                 { line: '222', text: '发生资产 (股权) 划转特殊性税务处理事项 (□是)', key: 'L222', type: 'text' },
                 { line: '223', text: '债务重组所得递延纳税年度 (□是)', key: 'L223', type: 'text' },
-                { line: '224', text: '研发支出辅助账样式 (□2015版 □2021版 □自行设计)', key: 'L224', type: 'text' }
+                { line: '224', text: '研发支出辅助账样式 (□2015版 □2021版 □自行设计)', key: 'L224', type: 'text' },
+
+                // 展平后的主要股东及分红情况矩阵
+                { line: '-', text: '【主要股东及分红情况（必填项目）】', isBold: true, isReadonly: true },
+                { line: '301-1', text: '股东1 - 股东名称', key: 'L301_1', type: 'text', indent: 1 },
+                { line: '301-2', text: '股东1 - 证件种类', key: 'L301_2', type: 'text', indent: 1 },
+                { line: '301-3', text: '股东1 - 证件号码', key: 'L301_3', type: 'text', indent: 1 },
+                { line: '301-4', text: '股东1 - 投资比例 (%)', key: 'L301_4', type: 'number', indent: 1 },
+                { line: '301-5', text: '股东1 - 当年分配的股息、红利等收益金额', key: 'L301_5', type: 'number', indent: 1 },
+                { line: '301-6', text: '股东1 - 国籍(注册地址)', key: 'L301_6', type: 'text', indent: 1 },
+                
+                { line: '302-1', text: '股东2 - 股东名称', key: 'L302_1', type: 'text', indent: 1 },
+                { line: '302-2', text: '股东2 - 证件种类', key: 'L302_2', type: 'text', indent: 1 },
+                { line: '302-3', text: '股东2 - 证件号码', key: 'L302_3', type: 'text', indent: 1 },
+                { line: '302-4', text: '股东2 - 投资比例 (%)', key: 'L302_4', type: 'number', indent: 1 },
+                { line: '302-5', text: '股东2 - 当年分配的股息、红利等收益金额', key: 'L302_5', type: 'number', indent: 1 },
+                { line: '302-6', text: '股东2 - 国籍(注册地址)', key: 'L302_6', type: 'text', indent: 1 },
+
+                { line: '303-1', text: '股东3 - 股东名称', key: 'L303_1', type: 'text', indent: 1 },
+                { line: '303-2', text: '股东3 - 证件种类', key: 'L303_2', type: 'text', indent: 1 },
+                { line: '303-3', text: '股东3 - 证件号码', key: 'L303_3', type: 'text', indent: 1 },
+                { line: '303-4', text: '股东3 - 投资比例 (%)', key: 'L303_4', type: 'number', indent: 1 },
+                { line: '303-5', text: '股东3 - 当年分配的股息、红利等收益金额', key: 'L303_5', type: 'number', indent: 1 },
+                { line: '303-6', text: '股东3 - 国籍(注册地址)', key: 'L303_6', type: 'text', indent: 1 },
+
+                { line: '399-1', text: '其余股东合计 - 投资比例 (%)', key: 'L399_1', type: 'number', isBold: true },
+                { line: '399-2', text: '其余股东合计 - 当年分配的股息、红利等收益金额', key: 'L399_2', type: 'number', isBold: true }
             ]
         },
         logic: (db) => {}
@@ -101,12 +128,16 @@ export const formBundle = {
                 { line: '30', text: '六、应纳所得税额 (28×29)', key: 'L30', isBold: true, isReadonly: true },
                 { line: '31', text: '减：减免所得税额 (31.1+31.2+…)', key: 'L31', indent: 1 },
                 { line: '32', text: '减：抵免所得税额 (填写A107050)', key: 'L32', indent: 1 },
-                { line: '33', text: '七、应纳税额 (30-31-32)', key: 'L33', isBold: true, isReadonly: true }
+                { line: '33', text: '七、应纳税额 (30-31-32)', key: 'L33', isBold: true, isReadonly: true },
+                { line: '34', text: '加：境外所得应纳所得税额 (填写A108000)', key: 'L34', indent: 1, isReadonly: true },
+                { line: '35', text: '减：境外所得抵免所得税额 (填写A108000)', key: 'L35', indent: 1, isReadonly: true }
             ]
         },
         logic: (db) => {
             if (!db.A100000) return;
             const t = db.A100000;
+            
+            // 抓取基础与子表数据
             t.L1 = (db.A101010?.L1 || 0) + (db.A101020?.L1 || 0) + ((db.A103000?.L1 || 0) + (db.A103000?.L10 || 0));
             t.L2 = (db.A102010?.L1 || 0) + (db.A102020?.L1 || 0) + ((db.A103000?.L18 || 0) + (db.A103000?.L24 || 0));
             t.L4 = db.A104000?.L26_C1 || 0;
@@ -115,16 +146,24 @@ export const formBundle = {
             t.L16 = (db.A101010?.L16 || 0) + (db.A101020?.L35 || 0);
             t.L17 = (db.A102010?.L16 || 0) + (db.A102020?.L33 || 0);
             
+            // 关联 A108000 数据（如果系统已初始化了该表）
+            t.L34 = db.A108000?.L10_C9 || 0;
+            t.L35 = db.A108000?.L10_C12 || 0;
+            
+            // 表内利润及税额计算
             t.L15 = t.L1 - t.L2 - (t.L3 || 0) - t.L4 - t.L5 - (t.L6 || 0) - t.L7 + (t.L8 || 0) + (t.L9 || 0) + (t.L10 || 0) + (t.L11 || 0) + (t.L12 || 0) + (t.L13 || 0) + (t.L14 || 0);
             t.L18 = t.L15 + t.L16 - t.L17;
             t.L24 = t.L18 - (t.L19 || 0) + (t.L20 || 0) - (t.L21 || 0) - (t.L22 || 0) + (t.L23 || 0);
             t.L28 = t.L24 - (t.L25 || 0) - (t.L26 || 0) - (t.L27 || 0);
-            t.L29 = 0.25;
+            t.L29 = 0.25; 
             t.L30 = t.L28 * t.L29;
             t.L33 = t.L30 - (t.L31 || 0) - (t.L32 || 0);
         }
     },
 
+    // ==========================================
+    // A101010 一般企业收入明细表
+    // ==========================================
     A101010: {
         schema: {
             id: 'A101010',
@@ -169,6 +208,9 @@ export const formBundle = {
         }
     },
 
+    // ==========================================
+    // A102010 一般企业成本支出明细表
+    // ==========================================
     A102010: {
         schema: {
             id: 'A102010',
@@ -181,7 +223,7 @@ export const formBundle = {
                 { line: '4', text: '其中：非货币性资产交换成本', key: 'L4', indent: 3 },
                 { line: '5', text: '2. 提供劳务成本', key: 'L5', indent: 2 },
                 { line: '6', text: '3. 建造合同成本', key: 'L6', indent: 2 },
-                { line: '7', text: '4. 让渡资产使用权成本', key: 'L7', indent: 2 },
+                { line: '7', text: '4.让渡资产使用权成本', key: 'L7', indent: 2 },
                 { line: '8', text: '5. 其他', key: 'L8', indent: 2 },
                 { line: '9', text: '（二）其他业务成本 (10+12+13+14+15)', key: 'L9', indent: 1, isReadonly: true },
                 { line: '10', text: '1. 销售材料成本', key: 'L10', indent: 2 },
@@ -213,6 +255,9 @@ export const formBundle = {
         }
     },
 
+    // ==========================================
+    // A101020 金融企业收入明细表
+    // ==========================================
     A101020: {
         schema: {
             id: 'A101020',
@@ -256,7 +301,7 @@ export const formBundle = {
                 { line: '35', text: '二、营业外收入 (36+37+38+39+40+41+42)', key: 'L35', isBold: true, isReadonly: true },
                 { line: '36', text: '（一）非流动资产处置利得', key: 'L36', indent: 1 },
                 { line: '37', text: '（二）非货币性资产交换利得', key: 'L37', indent: 1 },
-                { line: '38', text: '（三）债务重职利得', key: 'L38', indent: 1 },
+                { line: '38', text: '（三）债务重组利得', key: 'L38', indent: 1 },
                 { line: '39', text: '（四）政府补助利得', key: 'L39', indent: 1 },
                 { line: '40', text: '（五）盘盈利得', key: 'L40', indent: 1 },
                 { line: '41', text: '（六）捐赠利得', key: 'L41', indent: 1 },
@@ -277,6 +322,9 @@ export const formBundle = {
         }
     },
 
+    // ==========================================
+    // A102020 金融企业支出明细表
+    // ==========================================
     A102020: {
         schema: {
             id: 'A102020',
@@ -338,6 +386,9 @@ export const formBundle = {
         }
     },
 
+    // ==========================================
+    // A103000 事业单位、民间非营利组织收入、支出明细表
+    // ==========================================
     A103000: {
         schema: {
             id: 'A103000',
@@ -385,6 +436,9 @@ export const formBundle = {
         }
     },
 
+    // ==========================================
+    // A104000 期间费用明细表
+    // ==========================================
     A104000: {
         schema: {
             id: 'A104000',
