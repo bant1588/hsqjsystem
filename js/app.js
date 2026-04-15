@@ -56,7 +56,7 @@ const App = {
                 <div v-else class="workspace">
                     <div class="sidebar" style="display: flex; flex-direction: column; height: calc(100vh - 48px); position: sticky; top: 48px; background: #4285f4; color: #ffffff;">
                         <div class="sidebar-header" style="padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.2); flex-shrink: 0;">
-                            <button class="back-btn" @click="isFilling = false" style="width: 100%; box-sizing: border-box; background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 4px; padding: 8px 0; cursor: pointer;">← 返回目录</button>
+                            <button class="back-btn" @click="isFilling = false" style="width: 100%; box-sizing: border-box; background: transparent; color: #ffffff; border: 1px solid #ffffff; border-radius: 4px; padding: 8px 0; cursor: pointer;">← 返回目录</button>
                         </div>
                         
                         <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
