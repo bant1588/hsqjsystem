@@ -134,7 +134,9 @@ const App = {
             { id: 'A109010', name: '企业所得税汇总纳税分支机构所得税分配表' }
         ])
         
-        const selectedIds = ref(['A100000', 'A105000', 'A000000'])
+        // 修改点：更新了默认勾选的表单列表
+        const selectedIds = ref(['A000000', 'A100000', 'A105000', 'A105050', 'A105080', 'A106000'])
+        
         const isFilling = ref(false)
         const isExporting = ref(false)
         const currentMenu = ref('')
