@@ -123,7 +123,9 @@ export const formBundle = {
                 { line: '19', text: '减：境外所得 (填写A108010)', key: 'L19', indent: 1 },
                 { line: '20', text: '加：纳税调整增加额 (填写A105000)', key: 'L20', indent: 1 },
                 { line: '21', text: '减：纳税调整减少额 (填写A105000)', key: 'L21', indent: 1 },
-                { line: '22', text: '减：免税、减计收入及加计扣除 (22.1+22.2+…)', key: 'L22', indent: 1 },
+                { line: '22', text: '减：免税、减计收入及加计扣除 (22.1+22.2+…)', key: 'L22', indent: 1, isReadonly: true },
+                { line: '22.1', text: '（填写优惠事项名称）', key: 'L22_1', indent: 2 },
+                { line: '22.2', text: '（填写优惠事项名称）', key: 'L22_2', indent: 2 },
                 { line: '23', text: '加：境外应税所得抵减境内亏损 (填写A108000)', key: 'L23', indent: 1 },
                 { line: '24', text: '四、纳税调整后所得 (18-19+20-21-22+23)', key: 'L24', isBold: true, isReadonly: true },
                 { line: '25', text: '减：所得减免 (填写A107020)', key: 'L25', indent: 1 },
@@ -132,11 +134,23 @@ export const formBundle = {
                 { line: '28', text: '五、应纳税所得额 (24-25-26-27)', key: 'L28', isBold: true, isReadonly: true },
                 { line: '29', text: '税率 (25%)', key: 'L29', indent: 1 },
                 { line: '30', text: '六、应纳所得税额 (28×29)', key: 'L30', isBold: true, isReadonly: true },
-                { line: '31', text: '减：减免所得税额 (31.1+31.2+…)', key: 'L31', indent: 1 },
+                { line: '31', text: '减：减免所得税额 (31.1+31.2+…)', key: 'L31', indent: 1, isReadonly: true },
+                { line: '31.1', text: '（填写优惠事项名称）', key: 'L31_1', indent: 2 },
+                { line: '31.2', text: '（填写优惠事项名称）', key: 'L31_2', indent: 2 },
                 { line: '32', text: '减：抵免所得税额 (填写A107050)', key: 'L32', indent: 1 },
                 { line: '33', text: '七、应纳税额 (30-31-32)', key: 'L33', isBold: true, isReadonly: true },
                 { line: '34', text: '加：境外所得应纳所得税额 (填写A108000)', key: 'L34', indent: 1, isReadonly: true },
-                { line: '35', text: '减：境外所得抵免所得税额 (填写A108000)', key: 'L35', indent: 1, isReadonly: true }
+                { line: '35', text: '减：境外所得抵免所得税额 (填写A108000)', key: 'L35', indent: 1, isReadonly: true },
+                { line: '36', text: '八、实际应纳所得税额 (33+34-35)', key: 'L36', isBold: true, isReadonly: true },
+                { line: '37', text: '减：本年累计预缴所得税额', key: 'L37', indent: 1 },
+                { line: '38', text: '九、本年应补（退）所得税额 (36-37)', key: 'L38', isBold: true, isReadonly: true },
+                { line: '39', text: '其中：总机构分摊本年应补（退）所得税额 (填写A109000)', key: 'L39', indent: 1 },
+                { line: '40', text: '财政集中分配本年应补（退）所得税额 (填写A109000)', key: 'L40', indent: 1 },
+                { line: '41', text: '总机构主体生产经营部门分摊本年应补（退）所得税额 (填写A109000)', key: 'L41', indent: 1 },
+                { line: '42', text: '减：民族自治地区企业所得税地方分享部分：(□免征 □减征: 减征幅度__%)', key: 'L42', indent: 1 },
+                { line: '43', text: '减：稽查查补（退）所得税额', key: 'L43', indent: 1 },
+                { line: '44', text: '减：特别纳税调整补（退）所得税额', key: 'L44', indent: 1 },
+                { line: '45', text: '十、本年实际应补（退）所得税额 (38-42-43-44)', key: 'L45', isBold: true, isReadonly: true }
             ]
         },
         logic: (db) => {
@@ -156,6 +170,10 @@ export const formBundle = {
             t.L34 = db.A108000?.L10_C9 || 0;
             t.L35 = db.A108000?.L10_C12 || 0;
             
+            // 优惠事项明细加总
+            t.L22 = (t.L22_1 || 0) + (t.L22_2 || 0);
+            t.L31 = (t.L31_1 || 0) + (t.L31_2 || 0);
+
             // 表内利润及税额计算
             t.L15 = t.L1 - t.L2 - (t.L3 || 0) - t.L4 - t.L5 - (t.L6 || 0) - t.L7 + (t.L8 || 0) + (t.L9 || 0) + (t.L10 || 0) + (t.L11 || 0) + (t.L12 || 0) + (t.L13 || 0) + (t.L14 || 0);
             t.L18 = t.L15 + t.L16 - t.L17;
@@ -163,7 +181,12 @@ export const formBundle = {
             t.L28 = t.L24 - (t.L25 || 0) - (t.L26 || 0) - (t.L27 || 0);
             t.L29 = 0.25; 
             t.L30 = t.L28 * t.L29;
-            t.L33 = t.L30 - (t.L31 || 0) - (t.L32 || 0);
+            t.L33 = t.L30 - t.L31 - (t.L32 || 0);
+            
+            // 实际应纳税及补退税额计算
+            t.L36 = t.L33 + t.L34 - t.L35;
+            t.L38 = t.L36 - (t.L37 || 0);
+            t.L45 = t.L38 - (t.L42 || 0) - (t.L43 || 0) - (t.L44 || 0);
         }
     },
 
