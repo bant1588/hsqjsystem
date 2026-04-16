@@ -28,32 +28,33 @@ const App = {
     components: { TaxTableRenderer },
     template: `
         <div class="app-container">
-            <div class="top-banner" style="position: fixed; top: 0; left: 0; width: 100%; background-color: #fff3cd; color: #856404; display: flex; align-items: center; justify-content: center; z-index: 2000; box-shadow: 0 2px 4px rgba(0,0,0,0.1); border-bottom: 1px solid #ffeeba; height: 48px; box-sizing: border-box;">
-                
-                <div v-if="!isFilling" style="font-weight: bold; font-size: 14px;">
-                    💡 本系统属于模拟系统，仅用于学习交流，具体依税务实际征税为准! &nbsp; 加微信进群 13519445134
+            <div style="position: fixed; top: 0; left: 0; width: 100%; background-color: #FDF6EC; display: flex; align-items: center; justify-content: center; z-index: 2000; border-bottom: 2px solid #E6A23C; height: 48px; box-sizing: border-box; gap: 15px; color: #5C4E3A; font-family: sans-serif;">
+                <div style="display: flex; align-items: center; gap: 8px; font-size: 15px;">
+                    <span style="font-size: 18px;">💡</span>
+                    <span style="letter-spacing: 0.5px;">本系统属于模拟系统，仅用于学习交流，具体依税务实际征税为准！</span>
                 </div>
-
-                <div v-else style="display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 20px;">
-                    <div style="display: flex; gap: 8px;">
-                        <button @click="isFilling = false" class="banner-btn">← 返回目录</button>
-                        <button @click="handleExport" :disabled="isExporting" class="banner-btn success">
-                            {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
-                        </button>
-                        <button @click="handleReset" class="banner-btn danger">🗑️ 重置数据</button>
-                    </div>
-
-                    <div style="flex: 1; text-align: center; font-size: 14px;">
-                        当前填报：<strong style="color: #4285f4; font-size: 16px;">{{ currentMenu }}</strong>
-                    </div>
-
-                    <div style="font-size: 12px; opacity: 0.8; max-width: 260px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                        💡 模拟交流，具体以实务为准 | 群: 13519445134
-                    </div>
+                <div style="background-color: #07C160; color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 6px; cursor: default; box-shadow: 0 1px 2px rgba(0,0,0,0.1);">
+                    <span style="font-size: 16px;">💬</span>
+                    <span style="letter-spacing: 0.5px;">加微信进群 13519445134</span>
                 </div>
             </div>
 
-            <div style="padding-top: 48px; min-height: 100vh;">
+            <div v-if="isFilling" style="position: fixed; top: 48px; left: 0; width: 100%; background-color: #FFFDF8; border-bottom: 1px solid #EBEEF5; display: flex; align-items: center; justify-content: space-between; padding: 0 24px; z-index: 1999; height: 54px; box-sizing: border-box; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+                <div style="display: flex; gap: 12px;">
+                    <button class="top-action-btn btn-back" @click="isFilling = false">← 返回目录</button>
+                    <button class="top-action-btn btn-export" @click="handleExport" :disabled="isExporting">
+                        {{ isExporting ? '导出中...' : '📥 导出到 Excel' }}
+                    </button>
+                    <button class="top-action-btn btn-reset" @click="handleReset">🗑️ 重置填写数据</button>
+                </div>
+                <div style="font-size: 15px; color: #606266; display: flex; align-items: center; gap: 8px;">
+                    <span>当前填报表单：</span>
+                    <strong style="color: #409EFF; font-size: 16px; background: #ecf5ff; padding: 2px 8px; border-radius: 4px; border: 1px solid #b3d8ff;">{{ currentMenu }}</strong>
+                </div>
+            </div>
+
+            <div :style="{ paddingTop: isFilling ? '102px' : '48px', minHeight: '100vh', boxSizing: 'border-box' }">
+                
                 <div v-if="!isFilling" class="directory-container">
                     <div class="directory-header" style="padding: 20px 0; border-bottom: 1px solid #eee; position: sticky; top: 48px; background: #ffffff; z-index: 1000;">
                         <h2>企业所得税年报模拟系统</h2>
@@ -76,12 +77,12 @@ const App = {
                 </div>
 
                 <div v-else class="workspace">
-                    <div class="sidebar" style="display: flex; flex-direction: column; height: calc(100vh - 48px); position: sticky; top: 48px; background: #4285f4; color: #ffffff;">
+                    <div class="sidebar" style="display: flex; flex-direction: column; height: calc(100vh - 102px); position: sticky; top: 102px; background: #4285f4; color: #ffffff;">
                         <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
                             <div v-for="item in selectedForms" :key="item.id" 
                                  class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)">
                                 <div style="font-weight:bold;">{{ item.id }}</div>
-                                <div style="font-size:12px;opacity:0.9;line-height:1.4;">{{ item.name }}</div>
+                                <div style="font-size:12px;opacity:0.9;line-height:1.4;margin-top:4px;">{{ item.name }}</div>
                             </div>
                         </div>
                     </div>
@@ -94,29 +95,28 @@ const App = {
                     </div>
                 </div>
             </div>
-            
+
             <style>
-                .banner-btn {
-                    background: #ffffff;
-                    border: 1px solid #dcdfe6;
-                    border-radius: 4px;
-                    padding: 4px 12px;
-                    font-size: 13px;
-                    color: #856404;
+                .top-action-btn {
+                    padding: 8px 16px;
+                    font-size: 14px;
                     font-weight: bold;
+                    border-radius: 4px;
                     cursor: pointer;
-                    transition: all 0.2s;
-                    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                    border: 1px solid transparent;
+                    transition: all 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    letter-spacing: 0.5px;
                 }
-                .banner-btn:hover { background: #fffcf0; border-color: #856404; }
-                .banner-btn:active { background: #f8f4e0; }
-                .banner-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-                
-                .banner-btn.success { border-color: #67c23a; color: #348a08; }
-                .banner-btn.success:hover { background: #f0f9eb; }
-                
-                .banner-btn.danger { border-color: #f56c6c; color: #c82333; }
-                .banner-btn.danger:hover { background: #fef0f0; }
+                .btn-back { background-color: #ffffff; border-color: #DCDFE6; color: #606266; }
+                .btn-back:hover { color: #409EFF; border-color: #c6e2ff; background-color: #ecf5ff; }
+                .btn-export { background-color: #67C23A; color: white; border-color: #67C23A; }
+                .btn-export:hover { background-color: #85ce61; border-color: #85ce61; }
+                .btn-export:disabled { background-color: #b3e19d; border-color: #b3e19d; cursor: not-allowed; }
+                .btn-reset { background-color: #F56C6C; color: white; border-color: #F56C6C; }
+                .btn-reset:hover { background-color: #f78989; border-color: #f78989; }
             </style>
         </div>
     `,
