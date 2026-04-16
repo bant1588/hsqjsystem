@@ -156,61 +156,70 @@ export const formBundle = {
         schema: {
             id: 'A107041',
             title: '高新技术企业优惠情况及明细表 (A107041)',
-            headers: [[{title: '基本信息', colspan: 7}]],
+            headers: [[{title: '基本信息', colspan: 9}]],
             rows: [
+                // 采用 9 列网格实现精细排版
                 { inputs: [
                     {type: 'label', value: '1', style: 'text-align:center;width:5%;'}, 
-                    {type: 'label', value: '高新技术企业证书编号', colspan: 2, style: 'text-align:center;width:25%;'}, 
-                    {key: 'L1_C1', type: 'text', colspan: 2}, 
-                    {type: 'label', value: '高新技术企业证书取得时间', style: 'text-align:center;width:20%;'}, 
-                    {key: 'L1_C2', type: 'text'}
+                    {type: 'label', value: '高新技术企业证书编号', colspan: 2, style: 'text-align:center;width:20%;'}, 
+                    {key: 'L1_C1', type: 'text', colspan: 3, style: 'width:30%;'}, 
+                    {type: 'label', value: '高新技术企业证书取得时间', colspan: 2, style: 'text-align:center;width:25%;'}, 
+                    {key: 'L1_C2', type: 'text', style: 'width:20%;'}
                 ]},
                 { inputs: [
                     {type: 'label', value: '2', rowspan: 2, style: 'text-align:center;'}, 
                     {type: 'label', value: '对企业主要产品（服务）发挥核心支持作用的技术所属范围', rowspan: 2, colspan: 2, style: 'text-align:center;padding:10px;'}, 
-                    {type: 'label', value: '国家重点支持的高新技术领域', colspan: 4, style: 'text-align:center;'}
+                    {type: 'label', value: '国家重点支持的高新技术领域', colspan: 6, style: 'text-align:center;'}
                 ]},
                 { inputs: [
-                    {type: 'label', value: '一级领域', style: 'text-align:center;', colspan: 2}, 
-                    {type: 'label', value: '二级领域', style: 'text-align:center;'}, 
-                    {type: 'label', value: '三级领域', style: 'text-align:center;'}
+                    {type: 'label', value: '一级领域', style: 'text-align:center;'},
+                    {key: 'L2_C1', type: 'text'},
+                    {type: 'label', value: '二级领域', style: 'text-align:center;'},
+                    {key: 'L2_C2', type: 'text'},
+                    {type: 'label', value: '三级领域', style: 'text-align:center;'},
+                    {key: 'L2_C3', type: 'text'}
                 ]},
-                { inputs: [{type: 'label', value: '3', style: 'text-align:center;'}, {type: 'label', value: '关键指标情况', colspan: 6, style: 'font-weight:bold;text-align:center;'}] },
+                { inputs: [{type: 'label', value: '3', style: 'text-align:center;'}, {type: 'label', value: '关键指标情况', colspan: 8, style: 'font-weight:bold;text-align:center;'}] },
+                
                 { inputs: [
                     {type: 'label', value: '4', style: 'text-align:center;'}, {type: 'label', value: '收入<br>指标', rowspan: 7, style: 'text-align:center;width:8%;'}, 
-                    {type: 'label', value: '一、本年高新技术产品（服务）收入（5+6）', style: 'text-align:left;'}, {key: 'L4_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}
+                    {type: 'label', value: '一、本年高新技术产品（服务）收入（5+6）', colspan: 3, style: 'text-align:left;'}, 
+                    {key: 'L4_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}
                 ]},
-                { inputs: [{type: 'label', value: '5', style: 'text-align:center;'}, {type: 'label', value: '其中：产品（服务）收入', style: 'text-align:left;padding-left:30px;'}, {key: 'L5_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '6', style: 'text-align:center;'}, {type: 'label', value: '技术性收入', style: 'text-align:left;padding-left:30px;'}, {key: 'L6_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '7', style: 'text-align:center;'}, {type: 'label', value: '二、本年企业总收入（8-9）', style: 'text-align:left;'}, {key: 'L7_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '8', style: 'text-align:center;'}, {type: 'label', value: '其中：收入总额', style: 'text-align:left;padding-left:30px;'}, {key: 'L8_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '9', style: 'text-align:center;'}, {type: 'label', value: '不征税收入', style: 'text-align:left;padding-left:30px;'}, {key: 'L9_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '10', style: 'text-align:center;'}, {type: 'label', value: '三、本年高新技术产品（服务）收入占企业总收入的比例（4÷7）', style: 'text-align:left;'}, {key: 'L10_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '11', style: 'text-align:center;'}, {type: 'label', value: '人员<br>指标', rowspan: 3, style: 'text-align:center;'}, {type: 'label', value: '四、本年科技人员数', style: 'text-align:left;'}, {key: 'L11_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '12', style: 'text-align:center;'}, {type: 'label', value: '五、本年职工总数', style: 'text-align:left;'}, {key: 'L12_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
-                { inputs: [{type: 'label', value: '13', style: 'text-align:center;'}, {type: 'label', value: '六、本年科技人员占企业当年职工总数的比例（11÷12）', style: 'text-align:left;'}, {key: 'L13_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '5', style: 'text-align:center;'}, {type: 'label', value: '其中：产品（服务）收入', colspan: 3, style: 'text-align:left;padding-left:30px;'}, {key: 'L5_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '6', style: 'text-align:center;'}, {type: 'label', value: '技术性收入', colspan: 3, style: 'text-align:left;padding-left:30px;'}, {key: 'L6_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '7', style: 'text-align:center;'}, {type: 'label', value: '二、本年企业总收入（8-9）', colspan: 3, style: 'text-align:left;'}, {key: 'L7_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '8', style: 'text-align:center;'}, {type: 'label', value: '其中：收入总额', colspan: 3, style: 'text-align:left;padding-left:30px;'}, {key: 'L8_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '9', style: 'text-align:center;'}, {type: 'label', value: '不征税收入', colspan: 3, style: 'text-align:left;padding-left:30px;'}, {key: 'L9_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '10', style: 'text-align:center;'}, {type: 'label', value: '三、本年高新技术产品（服务）收入占企业总收入的比例（4÷7）', colspan: 3, style: 'text-align:left;'}, {key: 'L10_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                
+                { inputs: [{type: 'label', value: '11', style: 'text-align:center;'}, {type: 'label', value: '人员<br>指标', rowspan: 3, style: 'text-align:center;'}, {type: 'label', value: '四、本年科技人员数', colspan: 3, style: 'text-align:left;'}, {key: 'L11_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '12', style: 'text-align:center;'}, {type: 'label', value: '五、本年职工总数', colspan: 3, style: 'text-align:left;'}, {key: 'L12_C1'}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                { inputs: [{type: 'label', value: '13', style: 'text-align:center;'}, {type: 'label', value: '六、本年科技人员占企业当年职工总数的比例（11÷12）', colspan: 3, style: 'text-align:left;'}, {key: 'L13_C1', isReadonly:true}, {isAsterisk:true}, {isAsterisk:true}, {isAsterisk:true}] },
+                
                 { inputs: [
-                    {type: 'label', value: '14', style: 'text-align:center;'}, {type: 'label', value: '高新创发费用归集年度', colspan: 2, style: 'text-align:center;font-weight:bold;'}, 
+                    {type: 'label', value: '14', style: 'text-align:center;'}, {type: 'label', value: '高新创发费用归集年度', colspan: 4, style: 'text-align:center;font-weight:bold;'}, 
                     {type: 'label', value: '本年度<br>1', style: 'text-align:center;width:12%;'}, {type: 'label', value: '前一年度<br>2', style: 'text-align:center;width:12%;'}, {type: 'label', value: '前二年度<br>3', style: 'text-align:center;width:12%;'}, {type: 'label', value: '合计<br>4', style: 'text-align:center;width:12%;'}
                 ]},
-                { inputs: [{type: 'label', value: '15', style: 'text-align:center;'}, {type: 'label', value: '研发<br>费用<br>指标', rowspan: 16, style: 'text-align:center;'}, {type: 'label', value: '七、归集的高新研发费用金额（16+25）', style: 'text-align:left;'}, {key: 'L15_C1', isReadonly:true}, {key: 'L15_C2', isReadonly:true}, {key: 'L15_C3', isReadonly:true}, {key: 'L15_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '16', style: 'text-align:center;'}, {type: 'label', value: '（一）内部研究开发投入（17+…+22+24）', style: 'text-align:left;padding-left:20px;'}, {key: 'L16_C1', isReadonly:true}, {key: 'L16_C2', isReadonly:true}, {key: 'L16_C3', isReadonly:true}, {key: 'L16_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '17', style: 'text-align:center;'}, {type: 'label', value: '1. 人员人工费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L17_C1'}, {key: 'L17_C2'}, {key: 'L17_C3'}, {key: 'L17_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '18', style: 'text-align:center;'}, {type: 'label', value: '2. 直接投入费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L18_C1'}, {key: 'L18_C2'}, {key: 'L18_C3'}, {key: 'L18_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '19', style: 'text-align:center;'}, {type: 'label', value: '3. 折旧费用与长期待摊费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L19_C1'}, {key: 'L19_C2'}, {key: 'L19_C3'}, {key: 'L19_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '20', style: 'text-align:center;'}, {type: 'label', value: '4. 无形资产摊销费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L20_C1'}, {key: 'L20_C2'}, {key: 'L20_C3'}, {key: 'L20_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '21', style: 'text-align:center;'}, {type: 'label', value: '5. 设计费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L21_C1'}, {key: 'L21_C2'}, {key: 'L21_C3'}, {key: 'L21_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '22', style: 'text-align:center;'}, {type: 'label', value: '6. 装备调试费与试验费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L22_C1'}, {key: 'L22_C2'}, {key: 'L22_C3'}, {key: 'L22_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '23', style: 'text-align:center;'}, {type: 'label', value: '7. 其他费用', style: 'text-align:left;padding-left:40px;'}, {key: 'L23_C1'}, {key: 'L23_C2'}, {key: 'L23_C3'}, {key: 'L23_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '24', style: 'text-align:center;'}, {type: 'label', value: '其中：可计入研发费用的其他费用', style: 'text-align:left;padding-left:60px;'}, {key: 'L24_C1'}, {key: 'L24_C2'}, {key: 'L24_C3'}, {key: 'L24_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '25', style: 'text-align:center;'}, {type: 'label', value: '（二）委托外部研发费用 [ (26+28)×80% ]', style: 'text-align:left;padding-left:20px;'}, {key: 'L25_C1', isReadonly:true}, {key: 'L25_C2', isReadonly:true}, {key: 'L25_C3', isReadonly:true}, {key: 'L25_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '26', style: 'text-align:center;'}, {type: 'label', value: '1. 境内的外部研发费', style: 'text-align:left;padding-left:40px;'}, {key: 'L26_C1'}, {key: 'L26_C2'}, {key: 'L26_C3'}, {key: 'L26_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '27', style: 'text-align:center;'}, {type: 'label', value: '2. 境外的外部研发费', style: 'text-align:left;padding-left:40px;'}, {key: 'L27_C1'}, {key: 'L27_C2'}, {key: 'L27_C3'}, {key: 'L27_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '28', style: 'text-align:center;'}, {type: 'label', value: '其中：可计入研发费用的境外的外部研发费', style: 'text-align:left;padding-left:60px;'}, {key: 'L28_C1'}, {key: 'L28_C2'}, {key: 'L28_C3'}, {key: 'L28_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '29', style: 'text-align:center;'}, {type: 'label', value: '八、销售（营业）收入', style: 'text-align:left;'}, {key: 'L29_C1'}, {key: 'L29_C2'}, {key: 'L29_C3'}, {key: 'L29_C4', isReadonly:true}] },
-                { inputs: [{type: 'label', value: '30', style: 'text-align:center;'}, {type: 'label', value: '九、三年研发费用占销售（营业）收入的比例（15行4列÷29行4列）', style: 'text-align:left;'}, {key: 'L30_C4', isReadonly:true, colspan: 4}] },
-                { inputs: [{type: 'label', value: '31', style: 'text-align:center;'}, {type: 'label', value: '减免<br>税额', rowspan: 2, style: 'text-align:center;'}, {type: 'label', value: '十、国家需要重点扶持的高新技术企业减征企业所得税', style: 'text-align:left;'}, {key: 'L31_C4', colspan: 4}] },
-                { inputs: [{type: 'label', value: '32', style: 'text-align:center;'}, {type: 'label', value: '十一、经济特区和上海浦东新区设立的高新技术企业定期减免税额', style: 'text-align:left;'}, {key: 'L32_C4', colspan: 4}] }
+                { inputs: [{type: 'label', value: '15', style: 'text-align:center;'}, {type: 'label', value: '研发<br>费用<br>指标', rowspan: 16, style: 'text-align:center;'}, {type: 'label', value: '七、归集的高新研发费用金额（16+25）', colspan: 3, style: 'text-align:left;'}, {key: 'L15_C1', isReadonly:true}, {key: 'L15_C2', isReadonly:true}, {key: 'L15_C3', isReadonly:true}, {key: 'L15_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '16', style: 'text-align:center;'}, {type: 'label', value: '（一）内部研究开发投入（17+…+22+24）', colspan: 3, style: 'text-align:left;padding-left:20px;'}, {key: 'L16_C1', isReadonly:true}, {key: 'L16_C2', isReadonly:true}, {key: 'L16_C3', isReadonly:true}, {key: 'L16_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '17', style: 'text-align:center;'}, {type: 'label', value: '1. 人员人工费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L17_C1'}, {key: 'L17_C2'}, {key: 'L17_C3'}, {key: 'L17_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '18', style: 'text-align:center;'}, {type: 'label', value: '2. 直接投入费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L18_C1'}, {key: 'L18_C2'}, {key: 'L18_C3'}, {key: 'L18_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '19', style: 'text-align:center;'}, {type: 'label', value: '3. 折旧费用与长期待摊费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L19_C1'}, {key: 'L19_C2'}, {key: 'L19_C3'}, {key: 'L19_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '20', style: 'text-align:center;'}, {type: 'label', value: '4. 无形资产摊销费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L20_C1'}, {key: 'L20_C2'}, {key: 'L20_C3'}, {key: 'L20_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '21', style: 'text-align:center;'}, {type: 'label', value: '5. 设计费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L21_C1'}, {key: 'L21_C2'}, {key: 'L21_C3'}, {key: 'L21_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '22', style: 'text-align:center;'}, {type: 'label', value: '6. 装备调试费与试验费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L22_C1'}, {key: 'L22_C2'}, {key: 'L22_C3'}, {key: 'L22_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '23', style: 'text-align:center;'}, {type: 'label', value: '7. 其他费用', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L23_C1'}, {key: 'L23_C2'}, {key: 'L23_C3'}, {key: 'L23_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '24', style: 'text-align:center;'}, {type: 'label', value: '其中：可计入研发费用的其他费用', colspan: 3, style: 'text-align:left;padding-left:60px;'}, {key: 'L24_C1'}, {key: 'L24_C2'}, {key: 'L24_C3'}, {key: 'L24_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '25', style: 'text-align:center;'}, {type: 'label', value: '（二）委托外部研发费用 [ (26+28)×80% ]', colspan: 3, style: 'text-align:left;padding-left:20px;'}, {key: 'L25_C1', isReadonly:true}, {key: 'L25_C2', isReadonly:true}, {key: 'L25_C3', isReadonly:true}, {key: 'L25_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '26', style: 'text-align:center;'}, {type: 'label', value: '1. 境内的外部研发费', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L26_C1'}, {key: 'L26_C2'}, {key: 'L26_C3'}, {key: 'L26_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '27', style: 'text-align:center;'}, {type: 'label', value: '2. 境外的外部研发费', colspan: 3, style: 'text-align:left;padding-left:40px;'}, {key: 'L27_C1'}, {key: 'L27_C2'}, {key: 'L27_C3'}, {key: 'L27_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '28', style: 'text-align:center;'}, {type: 'label', value: '其中：可计入研发费用的境外的外部研发费', colspan: 3, style: 'text-align:left;padding-left:60px;'}, {key: 'L28_C1'}, {key: 'L28_C2'}, {key: 'L28_C3'}, {key: 'L28_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '29', style: 'text-align:center;'}, {type: 'label', value: '八、销售（营业）收入', colspan: 3, style: 'text-align:left;'}, {key: 'L29_C1'}, {key: 'L29_C2'}, {key: 'L29_C3'}, {key: 'L29_C4', isReadonly:true}] },
+                { inputs: [{type: 'label', value: '30', style: 'text-align:center;'}, {type: 'label', value: '九、三年研发费用占销售（营业）收入的比例（15行4列÷29行4列）', colspan: 3, style: 'text-align:left;'}, {key: 'L30_C4', isReadonly:true, colspan: 4}] },
+                
+                { inputs: [{type: 'label', value: '31', style: 'text-align:center;'}, {type: 'label', value: '减免<br>税额', rowspan: 2, style: 'text-align:center;'}, {type: 'label', value: '十、国家需要重点扶持的高新技术企业减征企业所得税', colspan: 3, style: 'text-align:left;'}, {key: 'L31_C4', colspan: 4}] },
+                { inputs: [{type: 'label', value: '32', style: 'text-align:center;'}, {type: 'label', value: '十一、经济特区和上海浦东新区设立的高新技术企业定期减免税额', colspan: 3, style: 'text-align:left;'}, {key: 'L32_C4', colspan: 4}] }
             ]
         },
         logic: (db) => {
@@ -242,54 +251,59 @@ export const formBundle = {
         schema: {
             id: 'A107042',
             title: '软件、集成电路企业优惠情况及明细表 (A107042)',
+            // 采用 4 列布局解决错位、右边对齐问题
             columns: [
-                {title: '行次', width: '10%'},
-                {title: '项    目', width: '60%'},
-                {title: '数量\\金额', width: '30%'}
+                {width: '10%'}, {width: '20%'}, {width: '40%'}, {width: '30%'}
             ],
             rows: [
-                { inputs: [{type: 'label', value: '税收优惠基本信息', colspan: 3, style: 'font-weight:bold;text-align:center;background:#fafafa'}] },
+                { inputs: [{type: 'label', value: '税收优惠基本信息', colspan: 4, style: 'font-weight:bold;text-align:center;background:#fafafa'}] },
                 { inputs: [
-                    {type: 'label', value: '选择适用优惠政策', style: 'text-align:center;font-weight:bold;'},
-                    {key: 'policy_type', type: 'radio', options: ['延续适用原有优惠政策', '适用新出台优惠政策'], colspan: 2, style: 'justify-content:center;'}
+                    {type: 'label', value: '选择适用优惠政策', colspan: 2, style: 'text-align:center;font-weight:bold;'},
+                    {key: 'policy_type', type: 'radio', options: ['延续适用原有优惠政策', '适用新出台优惠政策'], colspan: 2, style: 'text-align:center;'}
                 ]},
                 { inputs: [
-                    {type: 'label', value: '减免方式 1', style: 'text-align:center;font-weight:bold;'},
+                    {type: 'label', value: '减免方式 1', colspan: 2, style: 'text-align:center;font-weight:bold;'},
                     {type: 'label', value: '获利年度\\开始计算优惠期年度 1', style: 'text-align:center;'},
                     {key: 'year_1', type: 'text'}
                 ]},
                 { inputs: [
-                    {type: 'label', value: '减免方式 2', style: 'text-align:center;font-weight:bold;'},
+                    {type: 'label', value: '减免方式 2', colspan: 2, style: 'text-align:center;font-weight:bold;'},
                     {type: 'label', value: '获利年度\\开始计算优惠期年度 2', style: 'text-align:center;'},
                     {key: 'year_2', type: 'text'}
                 ]},
-                { inputs: [{type: 'label', value: '税收优惠有关情况', colspan: 3, style: 'font-weight:bold;text-align:center;background:#fafafa'}] },
+                { inputs: [{type: 'label', value: '税收优惠有关情况', colspan: 4, style: 'font-weight:bold;text-align:center;background:#fafafa'}] },
                 
+                { inputs: [
+                    {type: 'label', value: '行次', style: 'font-weight:bold;text-align:center;background:#fafafa'},
+                    {type: 'label', value: '项    目', colspan: 2, style: 'font-weight:bold;text-align:center;background:#fafafa'},
+                    {type: 'label', value: '数量\\金额', style: 'font-weight:bold;text-align:center;background:#fafafa'}
+                ]},
+
                 { line: '1', text: '人员指标', textRowspan: 3, text2: '一、企业本年月平均职工总人数', align2: 'left', inputs: [{key: 'L1_C1'}] },
-                { line: '2', text2: '其中：签订劳动合同关系且具有大学专科以上学历的职工人数', align2: 'left', indent: 1, inputs: [{key: 'L2_C1'}] },
+                { line: '2', text2: '其中：签订劳动合同关系且具有大学专科以上学历的职工人数', align2: 'left', inputs: [{key: 'L2_C1'}] },
                 { line: '3', text2: '研究开发人员人数', align2: 'center', inputs: [{key: 'L3_C1'}] },
                 
                 { line: '4', text: '研发费用指标', textRowspan: 2, text2: '二、研发费用总额', align2: 'left', inputs: [{key: 'L4_C1'}] },
-                { line: '5', text2: '其中：企业在中国境内发生的研发费用金额', align2: 'left', indent: 1, inputs: [{key: 'L5_C1'}] },
+                { line: '5', text2: '其中：企业在中国境内发生的研发费用金额', align2: 'left', inputs: [{key: 'L5_C1'}] },
                 
                 { line: '6', text: '收入指标', textRowspan: 3, text2: '三、企业收入总额', align2: 'left', inputs: [{key: 'L6_C1'}] },
                 { line: '7', text2: '四、符合条件的销售（营业）收入', align2: 'left', inputs: [{key: 'L7_C1'}] },
-                { line: '8', text2: '其中：自主设计、自主开发销售及服务收入', align2: 'left', indent: 1, inputs: [{key: 'L8_C1'}] },
+                { line: '8', text2: '其中：自主设计、自主开发销售及服务收入', align2: 'left', inputs: [{key: 'L8_C1'}] },
                 
                 { line: '9', text: '知识产权指标', textRowspan: 4, text2: '五、拥有核心关键技术和属于本企业的知识产权总数', align2: 'left', inputs: [{key: 'L9_C1'}] },
-                { line: '10', text2: '其中：发明专利', align2: 'left', indent: 1, inputs: [{key: 'L10_C1'}] },
+                { line: '10', text2: '其中：发明专利', align2: 'left', inputs: [{key: 'L10_C1'}] },
                 { line: '11', text2: '集成电路布图设计登记', align2: 'center', inputs: [{key: 'L11_C1'}] },
                 { line: '12', text2: '计算机 软件著作权', align2: 'center', inputs: [{key: 'L12_C1'}] },
                 
                 { line: '13', text: '业务类型及领域', textRowspan: 3, text2: '是否从事 8 英寸及以下集成电路生产', align2: 'left', inputs: [{key: 'L13_C1', type: 'radio', options: ['是', '否']}] },
                 { line: '14', text2: '是否按照开发、销售嵌入式软件企业条件享受政策', align2: 'left', inputs: [{key: 'L14_C1', type: 'radio', options: ['是', '否']}] },
-                { line: '15', text2: '重点集成电路设计领域和重点软件领域', align2: 'left', inputs: [{key: 'L15_C1', type: 'text', placeholder: '请选择所属领域'}] },
+                { line: '15', text2: '重点集成电路设计领域和重点软件领域', align2: 'left', inputs: [{key: 'L15_C1', type: 'text', align: 'center', placeholder: '请选择所属领域'}] },
                 
                 { line: '16', text: '减免税额', textColspan: 2, isBold: true, inputs: [{key: 'L16_C1'}] }
             ]
         },
         logic: (db) => {
-            // 本表多为基础信息录入，无复杂勾稽关系
+            // 基础信息录入，无复杂勾稽关系
         }
     },
 
