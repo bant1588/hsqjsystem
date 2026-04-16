@@ -110,12 +110,18 @@ const App = {
                     justify-content: center;
                     letter-spacing: 0.5px;
                 }
-                .btn-back { background-color: #ffffff; border-color: #DCDFE6; color: #606266; }
+                
+                /* 白底 - 返回目录 */
+                .btn-back { background-color: #ffffff; border-color: #DCDFE6; color: #606266; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
                 .btn-back:hover { color: #409EFF; border-color: #c6e2ff; background-color: #ecf5ff; }
-                .btn-export { background-color: #67C23A; color: white; border-color: #67C23A; }
+                
+                /* 绿底 - 导出到 Excel */
+                .btn-export { background-color: #67C23A; color: white; border-color: #67C23A; box-shadow: 0 1px 2px rgba(103,194,58,0.2); }
                 .btn-export:hover { background-color: #85ce61; border-color: #85ce61; }
-                .btn-export:disabled { background-color: #b3e19d; border-color: #b3e19d; cursor: not-allowed; }
-                .btn-reset { background-color: #F56C6C; color: white; border-color: #F56C6C; }
+                .btn-export:disabled { background-color: #b3e19d; border-color: #b3e19d; cursor: not-allowed; box-shadow: none; }
+                
+                /* 红底 - 重置填写数据 */
+                .btn-reset { background-color: #F56C6C; color: white; border-color: #F56C6C; box-shadow: 0 1px 2px rgba(245,108,108,0.2); }
                 .btn-reset:hover { background-color: #f78989; border-color: #f78989; }
             </style>
         </div>
@@ -159,7 +165,9 @@ const App = {
             { id: 'A109010', name: '企业所得税汇总纳税分支机构所得税分配表' }
         ])
         
+        // 定义必选的表单ID
         const mandatoryIds = ['A000000', 'A100000', 'A105000', 'A105050', 'A105080', 'A106000']
+        // 初始化时选中必选表单
         const selectedIds = ref([...mandatoryIds])
         
         const isFilling = ref(false)
@@ -173,6 +181,7 @@ const App = {
         const selectedForms = computed(() => fullCatalog.value.filter(i => selectedIds.value.includes(i.id)))
 
         const selectAll = () => { selectedIds.value = fullCatalog.value.map(i => i.id) }
+        // 取消全选时，恢复到必选项，而不是全部清空
         const deselectAll = () => { selectedIds.value = [...mandatoryIds] }
 
         const handleReset = () => {
