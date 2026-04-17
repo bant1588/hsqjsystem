@@ -77,18 +77,23 @@ const App = {
                 </div>
 
                 <div v-else class="workspace">
-                    <div class="sidebar" style="display: flex; flex-direction: column; height: calc(100vh - 102px); position: sticky; top: 102px; background: #4285f4; color: #ffffff;">
-                        <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; padding: 10px 0;">
+                    <div class="sidebar" :style="{ width: isSidebarCollapsed ? '54px' : '280px', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 102px)', position: 'sticky', top: '102px', background: '#4285f4', color: '#ffffff', transition: 'width 0.3s ease', zIndex: 100, overflowX: 'hidden' }">
+                        <div class="sidebar-toggle-btn" @click="isSidebarCollapsed = !isSidebarCollapsed">
+                            <span v-if="!isSidebarCollapsed" style="font-size:14px; font-weight:bold; white-space: nowrap;">◀ 折叠菜单</span>
+                            <span v-else style="font-size:16px;">▶</span>
+                        </div>
+                        <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; padding: 10px 0; white-space: nowrap;">
                             <div v-for="item in selectedForms" :key="item.id" 
-                                 class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)">
+                                 class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)"
+                                 :style="{ padding: isSidebarCollapsed ? '15px 6px' : '15px 20px', textAlign: isSidebarCollapsed ? 'center' : 'left' }">
                                 <div style="font-weight:bold;">{{ item.id }}</div>
-                                <div style="font-size:12px;opacity:0.9;line-height:1.4;margin-top:4px;">{{ item.name }}</div>
+                                <div v-if="!isSidebarCollapsed" style="font-size:12px;opacity:0.9;line-height:1.4;margin-top:4px; overflow:hidden; text-overflow:ellipsis;">{{ item.name }}</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="content" style="flex: 1; background: #f5f7f9;">
-                        <div class="tax-table-container" style="padding: 20px;">
+                    <div class="content" style="flex: 1; background: #f5f7f9; min-width: 0;">
+                        <div class="tax-table-container" style="padding: 20px; overflow-x: auto;">
                             <TaxTableRenderer v-if="isCurrentFormConfig" :config="currentConfig" />
                             <component v-else :is="currentView" />
                         </div>
@@ -123,6 +128,22 @@ const App = {
                 /* 橙底 - 重置填写数据 */
                 .btn-reset { background-color: #E6A23C; color: white; border-color: #E6A23C; box-shadow: 0 1px 2px rgba(230,162,60,0.2); }
                 .btn-reset:hover { background-color: #ebb563; border-color: #ebb563; }
+
+                /* 侧边栏折叠按钮样式 */
+                .sidebar-toggle-btn {
+                    padding: 12px;
+                    text-align: center;
+                    background: rgba(0,0,0,0.1);
+                    cursor: pointer;
+                    border-bottom: 1px solid rgba(255,255,255,0.2);
+                    transition: background 0.2s ease;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    height: 46px;
+                    box-sizing: border-box;
+                }
+                .sidebar-toggle-btn:hover { background: rgba(0,0,0,0.2); }
             </style>
         </div>
     `,
@@ -172,6 +193,8 @@ const App = {
         
         const isFilling = ref(false)
         const isExporting = ref(false)
+        // 控制侧边栏是否折叠的状态
+        const isSidebarCollapsed = ref(false)
         const currentMenu = ref('')
         const isCurrentFormConfig = ref(false)
         const currentConfig = ref(null)
@@ -249,7 +272,7 @@ const App = {
 
         return { 
             fullCatalog, selectedIds, mandatoryIds, isFilling, selectedForms, currentMenu, 
-            isCurrentFormConfig, currentConfig, currentView, isExporting,
+            isCurrentFormConfig, currentConfig, currentView, isExporting, isSidebarCollapsed,
             startFilling, switchTab, selectAll, deselectAll, handleReset, handleExport
         }
     }
