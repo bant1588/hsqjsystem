@@ -2,7 +2,59 @@
 import { ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js'
 import { db } from '../js/engine.js'
 
+// 自定义数字格式化输入框组件
+const FormattedNumberInput = {
+    props: ['modelValue', 'isReadonly', 'alignCenter'],
+    emits: ['update:modelValue'],
+    setup(props, { emit }) {
+        const isFocused = ref(false);
+
+        // 格式化为千分位 + 两位小数
+        const formatNumber = (val) => {
+            if (val === null || val === undefined || val === '') return '';
+            const num = Number(val);
+            if (isNaN(num)) return val;
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        };
+
+        const onFocus = (e) => {
+            if (props.isReadonly) return;
+            isFocused.value = true;
+            // 聚焦时还原为纯数字，如果是0则直接清空方便用户输入
+            e.target.value = props.modelValue === 0 ? '' : props.modelValue;
+            setTimeout(() => e.target.select(), 0); // 聚焦时全选文本
+        };
+
+        const onBlur = (e) => {
+            if (props.isReadonly) return;
+            isFocused.value = false;
+            // 去除逗号提取真实数字
+            let val = e.target.value.replace(/,/g, '');
+            let finalNum = 0;
+            if (val !== '') {
+                const num = Number(val);
+                finalNum = isNaN(num) ? 0 : num;
+            }
+            // 将真实纯数字同步给表单数据中心
+            emit('update:modelValue', finalNum);
+        };
+
+        return { isFocused, formatNumber, onFocus, onBlur };
+    },
+    template: `
+        <input type="text"
+               class="tax-input"
+               :class="{'text-center': alignCenter}"
+               :readonly="isReadonly"
+               :value="isFocused ? undefined : formatNumber(modelValue)"
+               @focus="onFocus"
+               @blur="onBlur"
+        />
+    `
+};
+
 export default {
+    components: { FormattedNumberInput },
     props: ['config'],
     setup() { return { db } },
     template: `
@@ -53,12 +105,17 @@ export default {
                             </label>
                         </div>
 
-                        <input v-else-if="input.key"
-                               :type="input.type === 'text' ? 'text' : 'number'"
-                               class="tax-input"
-                               :class="{'text-center': input.type === 'text' || input.align === 'center'}"
-                               v-model="db[config.id][input.key]"
-                               :readonly="input.isReadonly" />
+                        <template v-else-if="input.key">
+                            <input v-if="input.type === 'text'"
+                                   type="text"
+                                   class="tax-input text-center"
+                                   v-model="db[config.id][input.key]"
+                                   :readonly="input.isReadonly" />
+                            <FormattedNumberInput v-else
+                                   :align-center="input.align === 'center'"
+                                   :is-readonly="input.isReadonly"
+                                   v-model="db[config.id][input.key]" />
+                        </template>
                     </td>
                 </template>
 
@@ -71,12 +128,17 @@ export default {
                             </label>
                         </div>
                         
-                        <input v-else-if="row.key"
-                               :type="row.type === 'text' ? 'text' : 'number'"
-                               class="tax-input"
-                               :class="{'text-center': row.type === 'text' || row.align === 'center'}"
-                               v-model="db[config.id][row.key]"
-                               :readonly="row.isReadonly" />
+                        <template v-else-if="row.key">
+                            <input v-if="row.type === 'text'"
+                                   type="text"
+                                   class="tax-input text-center"
+                                   v-model="db[config.id][row.key]"
+                                   :readonly="row.isReadonly" />
+                            <FormattedNumberInput v-else
+                                   :align-center="row.align === 'center'"
+                                   :is-readonly="row.isReadonly"
+                                   v-model="db[config.id][row.key]" />
+                        </template>
                     </td>
                 </template>
             </tr>
