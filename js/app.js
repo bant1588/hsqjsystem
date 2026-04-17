@@ -77,17 +77,47 @@ const App = {
                 </div>
 
                 <div v-else class="workspace">
-                    <div class="sidebar" :style="{ width: isSidebarCollapsed ? '54px' : '280px', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 102px)', position: 'sticky', top: '102px', background: '#4285f4', color: '#ffffff', transition: 'width 0.3s ease', zIndex: 100, overflowX: 'hidden' }">
-                        <div class="sidebar-toggle-btn" @click="isSidebarCollapsed = !isSidebarCollapsed">
-                            <span v-if="!isSidebarCollapsed" style="font-size:14px; font-weight:bold; white-space: nowrap;">◀ 折叠菜单</span>
-                            <span v-else style="font-size:16px;">▶</span>
+                    <div class="sidebar" :style="{ width: isSidebarCollapsed ? '54px' : '280px', display: 'flex', flexDirection: 'column', height: 'calc(100vh - 102px)', position: 'sticky', top: '102px', background: '#ffffff', borderRight: '1px solid #EBEEF5', transition: 'width 0.3s ease', zIndex: 100, overflowX: 'hidden', boxShadow: '2px 0 8px rgba(0,0,0,0.05)' }">
+                        
+                        <div style="background-color: #4285F4; color: #ffffff; height: 50px; display: flex; align-items: center; justify-content: isSidebarCollapsed ? 'center' : 'space-between'; padding: isSidebarCollapsed ? '0' : '0 16px'; flex-shrink: 0;">
+                            <span v-show="!isSidebarCollapsed" style="font-size: 16px; font-weight: 400; letter-spacing: 1px;">报表列表</span>
+                            <div @click="isSidebarCollapsed = !isSidebarCollapsed" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 4px; transition: background 0.2s;">
+                                <svg v-if="!isSidebarCollapsed" viewBox="0 0 1024 1024" width="18" height="18" fill="#ffffff">
+                                    <path d="M128 256h768v86H128zM128 682h768v86H128zM128 469h426v86H128z"></path>
+                                    <path d="M725 384l170 128-170 128z"></path>
+                                </svg>
+                                <svg v-else viewBox="0 0 1024 1024" width="18" height="18" fill="#ffffff">
+                                    <path d="M128 256h768v86H128zM128 682h768v86H128zM554 469h342v86H554z"></path>
+                                    <path d="M469 640L299 512l170-128z"></path>
+                                </svg>
+                            </div>
                         </div>
-                        <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; padding: 10px 0; white-space: nowrap;">
+
+                        <div class="sidebar-menu-list" style="flex: 1; overflow-y: auto; background: #ffffff;">
+                            
+                            <div v-if="!isSidebarCollapsed" style="padding: 12px 16px; font-size: 13px; color: #303133; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f4f4f5;">
+                                <span>企业所得税年度申报...</span>
+                                <span style="transform: scaleY(0.7); font-weight: bold; color: #909399;">^</span>
+                            </div>
+
                             <div v-for="item in selectedForms" :key="item.id" 
-                                 class="menu-item" :class="{ active: currentMenu === item.id }" @click="switchTab(item)"
-                                 :style="{ padding: isSidebarCollapsed ? '15px 6px' : '15px 20px', textAlign: isSidebarCollapsed ? 'center' : 'left' }">
-                                <div style="font-weight:bold;">{{ item.id }}</div>
-                                <div v-if="!isSidebarCollapsed" style="font-size:12px;opacity:0.9;line-height:1.4;margin-top:4px; overflow:hidden; text-overflow:ellipsis;">{{ item.name }}</div>
+                                 class="sidebar-item" :class="{ 'is-active': currentMenu === item.id }" @click="switchTab(item)"
+                                 :style="{ padding: isSidebarCollapsed ? '15px 0' : '12px 16px 12px 20px', textAlign: isSidebarCollapsed ? 'center' : 'left' }">
+                                
+                                <div v-if="isSidebarCollapsed" style="font-size: 12px; transform: scale(0.9); line-height: 1.2;">
+                                    <span v-if="mandatoryIds.includes(item.id)" style="color: #F56C6C; display: block;">*</span>
+                                    {{ item.id.replace('A', '') }}
+                                </div>
+                                
+                                <div v-else>
+                                    <div style="font-size: 14px; margin-bottom: 6px; display: flex; align-items: center;">
+                                        <span v-if="mandatoryIds.includes(item.id)" style="color: #F56C6C; margin-right: 4px; font-family: SimSun;">*</span>
+                                        <span :style="{ color: currentMenu === item.id ? '#4285F4' : '#303133' }">{{ item.id }}</span>
+                                    </div>
+                                    <div style="font-size: 12px; color: #909399; line-height: 1.4; white-space: normal;">
+                                        {{ item.name }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,34 +146,39 @@ const App = {
                     letter-spacing: 0.5px;
                 }
                 
-                /* 白底 - 返回目录 */
                 .btn-back { background-color: #ffffff; border-color: #DCDFE6; color: #606266; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
                 .btn-back:hover { color: #409EFF; border-color: #c6e2ff; background-color: #ecf5ff; }
                 
-                /* 绿底 - 导出到 Excel */
                 .btn-export { background-color: #67C23A; color: white; border-color: #67C23A; box-shadow: 0 1px 2px rgba(103,194,58,0.2); }
                 .btn-export:hover { background-color: #85ce61; border-color: #85ce61; }
                 .btn-export:disabled { background-color: #b3e19d; border-color: #b3e19d; cursor: not-allowed; box-shadow: none; }
                 
-                /* 橙底 - 重置填写数据 */
                 .btn-reset { background-color: #E6A23C; color: white; border-color: #E6A23C; box-shadow: 0 1px 2px rgba(230,162,60,0.2); }
                 .btn-reset:hover { background-color: #ebb563; border-color: #ebb563; }
 
-                /* 侧边栏折叠按钮样式 */
-                .sidebar-toggle-btn {
-                    padding: 12px;
-                    text-align: center;
-                    background: rgba(0,0,0,0.1);
+                /* 侧边栏列表项交互样式 */
+                .sidebar-item {
+                    border-left: 3px solid transparent;
                     cursor: pointer;
-                    border-bottom: 1px solid rgba(255,255,255,0.2);
-                    transition: background 0.2s ease;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    height: 46px;
-                    box-sizing: border-box;
+                    border-bottom: 1px solid #fafafa;
+                    transition: background-color 0.2s ease, border-color 0.2s ease;
                 }
-                .sidebar-toggle-btn:hover { background: rgba(0,0,0,0.2); }
+                .sidebar-item:hover {
+                    background-color: #F5F7FA !important;
+                }
+                .sidebar-item.is-active {
+                    background-color: #F4F8FF !important;
+                    border-left-color: #4285F4 !important;
+                }
+
+                /* 细致化滚动条 */
+                .sidebar-menu-list::-webkit-scrollbar {
+                    width: 4px;
+                }
+                .sidebar-menu-list::-webkit-scrollbar-thumb {
+                    background: #dcdfe6;
+                    border-radius: 4px;
+                }
             </style>
         </div>
     `,
@@ -204,7 +239,6 @@ const App = {
         const selectedForms = computed(() => fullCatalog.value.filter(i => selectedIds.value.includes(i.id)))
 
         const selectAll = () => { selectedIds.value = fullCatalog.value.map(i => i.id) }
-        // 取消全选时，恢复到必选项，而不是全部清空
         const deselectAll = () => { selectedIds.value = [...mandatoryIds] }
 
         const handleReset = () => {
