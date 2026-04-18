@@ -18,7 +18,15 @@ export const formBundle = {
             rows: [
                 { inputs: [{type: 'label', value: '基本经营情况（必填项目）', colspan: 6, style: 'font-weight:bold;text-align:center;background-color:#fafafa;'}] },
                 { inputs: [
-                    {type: 'label', value: '101 纳税申报企业类型（填写代码）', colspan: 2, style: 'text-align:left;'}, {key: 'L101', type: 'text'},
+                    {type: 'label', value: '101 纳税申报企业类型（填写代码）', colspan: 2, style: 'text-align:left;'}, 
+                    {key: 'L101', type: 'select', options: [
+                        '100-非跨地区经营企业',
+                        '210-跨地区经营企业总机构/总机构（跨省）/适用《跨地区经营汇总纳税企业所得税征收管理办法》',
+                        '220-跨地区经营企业总机构/总机构（跨省）/不适用《跨地区经营汇总纳税企业所得税征收管理办法》',
+                        '230-总机构（省内）',
+                        '311-跨地区经营企业分支机构/需进行完整年度纳税申报/支机构（须进行完整年度申报并按比例纳税）',
+                        '312-跨地区经营企业分支机构/分支机构（须进行完整年度申报但不就地缴纳）'
+                    ]},
                     {type: 'label', value: '102 分支机构就地纳税比例（%）', colspan: 2, style: 'text-align:left;'}, {key: 'L102', type: 'number'}
                 ]},
                 { inputs: [
@@ -173,8 +181,8 @@ export const formBundle = {
                 { line: '20', text: '加：纳税调整增加额 (填写A105000)', key: 'L20', indent: 1 },
                 { line: '21', text: '减：纳税调整减少额 (填写A105000)', key: 'L21', indent: 1 },
                 { line: '22', text: '减：免税、减计收入及加计扣除 (22.1+22.2+…)', key: 'L22', indent: 1, isReadonly: true },
-                { line: '22.1', text: '（填写优惠事项名称）', key: 'L22_1', indent: 2 },
-                { line: '22.2', text: '（填写优惠事项名称）', key: 'L22_2', indent: 2 },
+                { line: '22.1', text: '', isTextEditable: true, textKey: 'L22_1_name', textPlaceholder: '（填写优惠事项名称）', key: 'L22_1', indent: 2 },
+                { line: '22.2', text: '', isTextEditable: true, textKey: 'L22_2_name', textPlaceholder: '（填写优惠事项名称）', key: 'L22_2', indent: 2 },
                 { line: '23', text: '加：境外应税所得抵减境内亏损 (填写A108000)', key: 'L23', indent: 1 },
                 { line: '24', text: '四、纳税调整后所得 (18-19+20-21-22+23)', key: 'L24', isBold: true, isReadonly: true },
                 { line: '25', text: '减：所得减免 (填写A107020)', key: 'L25', indent: 1 },
@@ -184,8 +192,8 @@ export const formBundle = {
                 { line: '29', text: '税率 (25%)', key: 'L29', indent: 1 },
                 { line: '30', text: '六、应纳所得税额 (28×29)', key: 'L30', isBold: true, isReadonly: true },
                 { line: '31', text: '减：减免所得税额 (31.1+31.2+…)', key: 'L31', indent: 1 },
-                { line: '31.1', text: '（填写优惠事项名称）', key: 'L31_1', indent: 2 },
-                { line: '31.2', text: '（填写优惠事项名称）', key: 'L31_2', indent: 2 },
+                { line: '31.1', text: '', isTextEditable: true, textKey: 'L31_1_name', textPlaceholder: '（填写优惠事项名称）', key: 'L31_1', indent: 2 },
+                { line: '31.2', text: '', isTextEditable: true, textKey: 'L31_2_name', textPlaceholder: '（填写优惠事项名称）', key: 'L31_2', indent: 2 },
                 { line: '32', text: '减：抵免所得税额 (填写A107050)', key: 'L32', indent: 1 },
                 { line: '33', text: '七、应纳税额 (30-31-32)', key: 'L33', isBold: true, isReadonly: true },
                 { line: '34', text: '加：境外所得应纳所得税额 (填写A108000)', key: 'L34', indent: 1 },
